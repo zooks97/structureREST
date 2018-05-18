@@ -1,0 +1,39 @@
+Analytical Absorption Correction (Meulenaar, Tompa & Alcock) (14/5/97)
+======================================================================
+(see. N.W. Alcock (1990). Crystallographic Computing, p 271)
+
+The M,T & A code has been implemented in PLATON and adapted to fit into
+the direction cosine regime used with shelx-76 (compatible with
+SHELXL93).
+
+Two files are needed:
+
+1 - instruction file: <name>.ins
+2 - reflection  file: <name>.hkl   (hkl F^2 sig(F^2) + direction cosines)
+
+The standard published testdata set is included in this directory and may be
+run with:
+
+platon abstest.ins
+
+instruction file format:
+
+1 - TITL <text>
+2 - CELL lamda a b c alpha beta gamma
+3 - FACE h k l d
+       ..
+4 - ABST mu
+
+Notes:
+====== 
+- d is the distance to a centre inside the crystal
+- the dimensions of mu and d should be the same (i.e. cm or mm)
+- Gaussian integration in place of M,T&A can be done by substituting
+  the last instruction by 'ABSG mu nx ny nz', where nx, ny & nz
+  are the 'gauss grid numbers in the x, y & z direction resp. 
+
+
+In addition three tests (test1, test2 & stand) are provided illus-
+trating the alternative use of 'absolute-psi'-values instead of
+direction cosines on 'shelxl.hkl' (Adapted from the Alcock 
+distribution).

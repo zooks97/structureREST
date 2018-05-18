@@ -1,0 +1,15 @@
+The check.def procedure has been changed but should work uneventful for new installations.
+
+Unfortunately, for existing installations that are updated some clean-up might be needed.
+
+The idea is to ensure that the check.def and platon versions are in sync.
+
+Given a new PLATON version, you should download the current check.def version as well and copy that to the location pointed at by CHECKDEF. 
+check.def versions are identified with a yymmdd date that should match with the date embedded in the PLATON source.
+
+When, PLATON does not find the proper check.def version (when run in the validation mode), it will create one in the current directory. The problem is that when CHECKDEF is defined, still the version pointed at is attempted to be used.
+The solution is to copy the check.def version created by PLATON to where CHECKDEF points to.
+
+Note: as an alternative to downloading check.def from the WEB, the same can be accomplished with the instruction
+'platon -z2'
+

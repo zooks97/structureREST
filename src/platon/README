@@ -1,0 +1,391 @@
+          ============================================
+          WHAT IS PLATON/PLUTON AND HOW TO GET STARTED  (Version 03-Nov-2014)
+          ============================================
+
+     ****************************************************************
+               See WWW:http://www.platonsoft.nl/platon/ 
+        for more complete and up-to-date info and documentation.
+     ****************************************************************
+
+PLATON is a versatile SHELXL2014 compatible crystallographic tool implementing:
+
+- a large variety of standard geometrical calculations (i.e. bonds, angles,
+  torsions, planes, rings, inter-molecular contacts (H-Bond analysis),
+  Coordination etc.), either fully automatic or as specified by the user, 
+
+- tests: (i.e. ADDSYM (building on Yvon LePage's powerful published 
+  MISSYM (C) algorithm), VOIDS etc.) for the detection of missed symmetry,
+
+- utilities: (cell transformation, reflection file transformation
+  (including direction cosines), SHELXL input etc.), PDB & CIF output
+
+- graphics: (e.g. automatic labelled 'ORTEP-lookalike plots, the molecular
+  graphics program PLUTON and NEWMAN plots, inspection for completeness
+  of the dataset with ASYM-VIEW) 
+
+- several filters: (i.e. Exact (analytical/ de Meulenaer & Tompa) face-indexed
+  correction for absorption, DELABS (the locally modified Walker & Stuart
+  DIFABS technique for empirical absorption correction, psi-scan based
+  correction, MULABS using multiple scanned reflections following the
+  Blessing algoritm) and SQUEEZE for handling disordered solvents
+  (= BYPASS procedure, (v.d. Sluis & Spek, Acta Cryst. (1990), A46, 194))).
+
+- Validation checks for data supplied in CIF-Format, implementing most
+  published tests done in Chester on papers submitted for publication
+  in Acta Cryst + a large number of 'PLATON-related' tests. 
+
+- Automatic interface to the Cambridge Structural Database
+
+- The program HELENA for datareduction of CAD4 data into SHELX format
+  (plus direction cosines)
+
+- SYSTEM-S for automated structure determination using numerous internal
+  and external tools (SHELX, SIR, DIRDIF, CRUNCH).
+
+Most PLATON features complement those available in the widely distributed
+public domain SHELXL2014 package (e.g. spacegroup determination and
+graphics).
+
+Note: Most features are currently available only for non-protein structures.
+
+
+              WHAT COORDINATE DATA INPUT STANDARDS ARE ACCEPTED
+              ================================================= 
+
+Parameter data may be given in various formats including CSD-FDAT, CIF, PDB &
+SHELX-RES standards. Note: there are some restrictions on atom labelling (A4).
+
+A CIF file is recommended when su's (= e.s.d.'s) on the derived geometry
+parameters are desired. (see examples) 
+
+                    REFLECTION DATA FORMAT
+                    ======================
+
+Reflection data should be provided in the SHELX format (optionally with
+SHELX76-style direction cosines.
+Some program options also accept SHELXL97-style FO/FC CIF's as reflection
+input.
+
+
+                     WHAT DOES IT COST?
+                     ==================
+The Program may be used free of charge by the academic community under
+the condition that it is not redistributed (just give the pointer to
+this anonymous ftp server (xraysoft.chem.ruu.nl) for a current & fresh copy. 
+The author is interested in reports of misbehaviour and suggestions for 
+additional features.
+
+There is a charge of US$ 5000 for commercial users (as a contribution
+to our continuing research efforts).
+
+                 HOW TO OBTAIN A COPY OF PLATON
+                 ==============================
+In order to get a copy of the program source you will have to copy
+(and uncompress) the two files platon.f.gz and xdrvr.c and compile
+and link them into an executable with the name 'platon' (see example file
+with the name compile) and when desirable, a soft link pluton to
+platon.
+
+(A compiled version - not always up-to-date - may be extracted by
+copying and uncompress platon.gz from the appropriate platform
+directory)
+
+Alternatively, copy 'platon.tar.Z' which contains all files 
+in the generic 'unix' directory (will compile without any change on DEC,
+SUN, SGI and LINUX platforms).
+
+For the Validation feature, a copy of the file 'check.def' will be 
+needed.
+
+                          HOW TO COMPILE
+                          ==============
+On most UNIX implementations a compile line like the one given below
+should be sufficient:
+
+	gfortran -o platon platon.f xdrvr.c -lX11
+
+
+                     MENUS AND MOUSE CLICKING
+                     ========================
+
+PLATON (UNIX-version) attempts by default to open an X-Window Menu.
+When it doesn't succeed, it automatically switches to interactive input
+from the keyboard and TEK4010 graphics (Keyboard input as default is
+choosen when PLATON is called with the '-o' option.)
+
+In the menu mode, input can be given either from the keyboard (useful
+for the more complex instructions) or via mouse clicks.
+
+The X-window area is devided in four sub-windows. 
+
+1 - The main graphics area in the upper-left corner (also used for the main
+    PLATON (opening)menu from which various (sub)programs can be started
+    by mouse clicks). 
+2 - The upper-right window carries varies sup-menus with clickable options. 
+    Currently active options are displayed in RED. 
+    Entries in this menu with vertical lines indicate click-position 
+    sensitive options or magnitudes. 
+    The yellow top-field may be clicked to reflesh the window contents.
+3 - The Lower-Left window is used for short messages and the display of
+    keyboard input.
+4 - The lower-right window informs about the current input status.
+    It also provides an easy 'Exit' by clicking on it.
+
+More extensive output is produced on the window from which the program 
+was started and on the listing file.
+
+                   INTRODUCTORY TUTORIAL
+                   =====================
+
+A Sample run of the program (with the test data on 'sucrose.spf', to
+be copied as well) is done with the command line (excluding quotes): 
+
+ 'platon sucrose'
+
+followed by the interactive instructions (on the program prompt >>):
+
+>> CALC
+
+(or click on 'CALC ALL')
+
+This will give an exhaustive geometry analysis. The main results are
+on the listing file to be printed on an (ascii) lineprinter (Some summary
+information is also directed to the display).
+
+alternatively, the instruction (after restarting the program):
+
+>> CALC ADDSYM 
+
+will provide a test for missed symmetry (cf. the LePage MISSYM (C) algorithm),
+or:
+
+>> CALC SOLV 
+
+will do a calculation to identify missed solvent areas or
+
+>> TABL ACC
+
+will generate a file as a starting point of a CIF-file suitable for
+submission to Acta Cryst C.
+
+A default labelled ORTEP is produced with:
+
+>> PLOT ADP
+
+The SQUEEZE filter needs two inputfiles: 1) a shelxl.hkl (HKLF 4)
+reflection file and 2) a shelxl.res file containing the current
+refined parameter set (excluding atoms modeling the disordered 
+solvent area). The calculations are done with the instructions
+
+>> CALC SQUEEZE
+
+A file named shelxl.hkp contains a new reflection file where the
+disordered solvent contribution is substracted from the observed data.
+Further refinement can be done against this new file.
+
+** Note: The SQUEEZE filter has been used succesfully for structures
+         containing disordered toluene or similar molecules. Experience
+         is still building up and there is no quarantee that the program
+         will do the right thing on unfamiliar terrain (in particular
+         additional disorder in the discrete structural part has to be
+         sorted out for their effect on the solvent area).   
+
+         See also 'How_to_use_SQUEEZE
+
+
+                 ANALYTICAL ABSORPTION CORRECTION
+                 ================================
+For those having crystals that can be face-indexed there is the 
+easy-to-use implementation of the de Meulenaar & Tompa absorption
+correction method.
+This filter may be invoked with:
+
+                 platon shelxl.ins
+
+again, you will need a 'shelxl.hkl' file including the direction cosines
+The file shelxl.ins should contain:
+
+TITL text
+CELL lambda a b c alpha beta gamma
+FACE h k l d 
+......
+ABST mu
+
+The d-values are the distances of an arbitrary point within the crystal
+to their corresponding faces. d & mu should be given either both in
+mm or both in cm.
+
+See also the Test-example directory.
+
+
+                       RECIPROCAL LATTICE SYMMETRY
+                        =========================
+
+The symmetry of the reciprocal lattice at hand may be inspected with 
+the PLATON/ASYM utility for a given shelx.hkl file. See test directory.
+
+                              PLUTON
+                              ======
+
+The previously available stand-alone molecular graphics program PLUTON is
+now available as an option within PLATON. The original PLUTON is now
+obsolete and no longer supported & maintained. 
+
+There are three ways to run the PLUTON option within PLATON
+
+1 - with the '-p' option on the command line
+
+    e.g. 'platon -p sucrose.spf'
+
+2 - with a 'softlink' of 'pluton' to the 'platon' executable:
+
+    i.e.  'ln -s platon pluton'
+
+    sothat PLUTON can be invoked as usual: 'pluton sucrose.spf'
+
+3 - the PLATON instruction 'PLUTON' (or clicking on 'toPluton') 
+
+Note: Clicking in the main PLATON-MENU on the button PLUTON will result
+      in a PLATON-run to generate an input file for PLUTON to make both
+      consistent.
+
+                          GRAPHICS
+                          ========
+
+Various graphics standards are supported including X-Window, HP-GL,
+Tek4010, PostScript (Also suitable for MacUsers).
+
+                        X-WINDOW MENU
+                        =============
+PLATON:
+======
+
+By default, a menu is shown from which the desired options can be
+MOUSE-CLICKED. Traditional Keyboard entry is possible either through
+the 'MenuOff' button or by starting the program with the '-o' option
+on the command line.
+
+PLUTON:   (via platon -p or pluton --> platon soft link)
+======
+
+By default, a PLOT instruction will bring up a MENU (X-window mode only)
+from which mouse-driven options may be run. The more complex
+instructions may be given via the keyboard. The menu-feature is switched
+off either through a menu option or with the instruction MENU OFF
+(to be given before the first PLOT instruction).
+
+                       HARD-COPY GRAPHICS
+                       ==================
+
+Hard copies of the current display are conveniently obtained as a
+(meta) file by clicking on the 'Meta' option. By default, a PostScript
+file (Landscape Mode), suitable to be sent to a PostScript laser printer
+will be produced. Alternatively, the instruction 'SET META HPGL' will
+make the default HPGL (suitable when graphics is to be included in
+a wordprocessor environment (e.g. WordPerfect)).
+
+                   RAY-TRACED MOLECULAR GRAPHICS
+                   ============================= 
+
+High quality (color)graphics is easily obtained with the excellent
+Public Domain package POV-Ray. The required input files for that
+program are conveniently generated using the 'POV' button in the
+PLUTON menu. This will generate a '.pov' file with the current 
+content, style and orientation of the current PLUTON-display.
+
+POV-Ray (information) may be obtained from:
+
+http://www.povray.org  and ftp.povray.org.
+ 
+                          PRINTING
+                          ========
+
+PLATON generates an extensive listing file '?.lis' that can be viewed with an
+editor and an equivalent PostScript file (?.lps) that can be inspected
+with a PostScript viewer (Ghostscript) or sent to a PostScript
+LaserPrinter.
+
+                          CIF-VALIDATION
+                          ==============
+
+PLATON can be run in a special mode to provide some validation checking
+of CIF's. It is still experimental with  criteria not necessarily
+final. Most warnings can be signs of unresolved problems that should
+be looked at more closely and at least discussed in the experimental
+section of the paper when sent for publication.
+
+One of the options to run the feature on 'sk5555.cif' is via:
+
+        platon -u sk5555.cif
+
+The check-output can be found in: sk5555.chk
+
+Note: make sure that the file 'check.def' is present in the current
+      directory
+      Alternatively, set the environment variable CHECKDEF to where this
+      file is located.
+
+Alternatively, the feature can be run from the platon opening window.
+
+Note: This validation procedure is intended as a 'structural' addition
+      to the checking already done by the Chester Acta Cryst office 
+      for 'C-papers'. It does not support all the published checks
+      done in Chester.
+
+                          HTML-MANUAL
+                          ===========
+
+By default, manual info is available over the network using NETSCAPE.
+
+Alternatively, the manual tree can be loaded locally. 
+An environment variable PLAHTM should be set to point to the local
+location.
+The manual set may change with later distributions and should be
+refreshed accordingly.
+
+                          MISCELLANIOUS
+                          =============
+Further information on available instructions is obtained with
+the instruction:
+
+HELP
+                        **********************
+
+Caveat: This is a RESEARCH-program that is upgraded regularly on an
+        event-driven basis on the needs (experience, bug reports, new insight)
+        of our national single crystal service facility (over 200 mainly
+        organometallic structures/year), local crystallographic
+        research, CIF's received as coeditor of Acta Cryst C  and external
+	user reports. It represents the current status (with possible loose
+        ends to be filled in later or options needing fine-tuning in the
+        field).
+
+        Extensive local modification of the source code is discouraged.
+        There are usualy major changes in the source code between released
+        versions. (For this reason, most comment is left out from the
+        distributed source code). 
+        
+        Please inform me about problems and check regularly for more
+        up-to-date versions (where problems encountered may have been
+        solved in the meantime). Please sent the insulting files to
+        'a.l.spek@chem.uu.nl'.
+
+
+Thanks: to all users who contribute(d) in many ways to the development
+        of the features now present in PLATON and authors of 
+        crystallographic software who will find some of their 
+        excellent ideas intertwined into PLATON. 
+                 ----------------------
+
+	Dr. A.L. Spek
+	Bijvoet Centre for Biomolecular Research
+	Vakgroep Kristal & Structuurchemie,
+	Utrecht University
+	Padualaan 8
+	3584 CH Utrecht
+	The Netherlands.
+        WWW  : http://www.platonsoft.nl/
+        WWW  : http://www.platonsoft/platon
+        WWW  : http://www.cryst.chem.uu.nl/
+        WWW  : http://www.cryst.chem.uu.nl/platon
+	Email: spea@uu.nl
