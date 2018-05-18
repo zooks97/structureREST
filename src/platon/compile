@@ -1,1 +1,0 @@
-gfortran -o platon platon.f xdrvr.c -L/usr/X11R6/lib -lX11
