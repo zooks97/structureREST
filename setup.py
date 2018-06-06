@@ -33,6 +33,6 @@ setup(
     # for a useful dicussion
     install_requires=[
     ],
-    packages=['zocrys', 'zocrys.aiida', 'zocrys.mongo', 'zocrys.rest'],
+    packages=['zocrys', 'zocrys.aiida'],  # , 'zocrys.mongo', 'zocrys.rest'
     test_suite='test'
 )

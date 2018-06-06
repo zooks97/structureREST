@@ -1,0 +1,17 @@
+Metadata-Version: 1.1
+Name: zocrys
+Version: 0.1.0
+Summary: Austin Zadoks crystal structure tools
+Home-page: https://github.com/zooks97/structureREST.git
+Author: Austin Zadoks
+Author-email: zooks97@gmail.com
+License: GPLv3, see LICENSE file
+Description: # structureREST
+        RESTful interface for structure comparison and more
+        
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6

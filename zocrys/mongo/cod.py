@@ -1,3 +1,5 @@
+#!/usr/local/miniconda3/envs/aiida-latest/bin/python
+# -*- coding: utf-8 -*-
 from pymatgen.io.cif import CifParser
 import pymongo
 import logging
@@ -37,7 +39,7 @@ for cif in group.nodes:
                 logging.info('%d documents collected', len(documents))
             if len(documents) == N:
                 logging.info('Inserting %d documents into %s',
-                              len(documents), COLLECTION)
+                             len(documents), COLLECTION)
                 try:
                     result = collection.insert_many(documents)
                 except Exception as exception:
@@ -57,6 +59,6 @@ if documents:
         raise Exception(exception)
     else:
         logging.info('Successfuly inserted %d documents into %s',
-                        len(result.inserted_ids), COLLECTION)
+                     len(result.inserted_ids), COLLECTION)
         documents = []
 logging.info('Complete')

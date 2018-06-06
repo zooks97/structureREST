@@ -1,6 +1,11 @@
+#!/usr/local/miniconda3/envs/structure/bin/python
+# -*- coding: utf-8 -*-
 import flask
 import flask_restful
 from flask_restful.reqparse import Argument, RequestParser
+import comparisons
+import distances
+import fingerprints
 
 app = flask.Flask(__name__)
 api = flask_restful.Api(app)
@@ -23,21 +28,21 @@ ARGUMENTS = {
     'attempt_supercell': Argument('attempt_supercell', type=bool, store_missing=False,
                                   help='If set to True and number of sites in cells differ after a primitive cell reduction (divisible by an integer) attempts to generate a supercell transformation of the smaller cell which is equivalent to the larger structure'),
     'allow_subset': Argument('allow_subset', type=bool, store_missing=False,
-                            help='Allow one structure to match to the subset of another structure'),
+                             help='Allow one structure to match to the subset of another structure'),
     'comparator': Argument('comparator',
-                            choices=['AbstractComparator', 'ElementComparator',
-                                     'FrameworkComparator',
-                                     'OccupancyComparator',
-                                     'OrderDisorderElemementComparator',
-                                     'SpeciesComparator', 'SpinComparator'],
-                            store_missing=False,
-                            help='Name of a comparator object'),
+                           choices=['AbstractComparator', 'ElementComparator',
+                                    'FrameworkComparator',
+                                    'OccupancyComparator',
+                                    'OrderDisorderElemementComparator',
+                                    'SpeciesComparator', 'SpinComparator'],
+                           store_missing=False,
+                           help='Name of a comparator object'),
     'supercell_size': Argument('supercell_size', type=str, store_missing=False,
                                help='Method to use for determining the size of a supercell if applicable'),
     'ignored_species': Argument('ignored_species', type=list, store_missing=False,
                                 help='A list of ions to be ignored in matching'),
     'anonymous': Argument('anonymous', type=bool, store_missing=False,
-                            help='Allow distinct species in one species to map to another'),
+                          help='Allow distinct species in one species to map to another'),
 
     # matminer
     'preset': Argument('preset', type=str,
@@ -48,8 +53,8 @@ ARGUMENTS = {
                                   help='Arguments passed to CrystalSiteFingerprint'),
     'site_stats_args': Argument('site_stats_args', type=dict, store_missing=False,
                                 help='Arguments passed to SiteStatsFingerprint'),
-    'tolerance': Argument('tolerance', type=float, store_missing=False,
-                          help='Tolerance for comparison of distance to 0'),
+    'distance_tol': Argument('distance_tol', type=float, store_missing=False,
+                             help='Distance tolerance for comparison to return True or distance to be rounded to 0'),
 
     # spglib
     'symprec': Argument('symprec', type=float,
@@ -63,8 +68,6 @@ ARGUMENTS = {
 
 
 ### Distances ###
-
-import distances
 class Pymatgen_Distances(flask_restful.Resource):
     def get(self):
         parser = RequestParser()
@@ -80,15 +83,16 @@ class Pymatgen_Distances(flask_restful.Resource):
 
         return flask.jsonify(calculated_distances)
 
+
 api.add_resource(Pymatgen_Distances,
                  '/v{:d}/distances/pymatgen/'.format(VERSION))
 
-import distances
+
 class Matminer_Distances(flask_restful.Resource):
     def get(self):
         parser = flask_restful.reqparse.RequestParser()
         argument_names = ['structures', 'preset', 'crystal_site_args',
-                          'site_stats_args']
+                          'site_stats_args', 'distance_tol']
         for argument_name in argument_names:
             parser.add_argument(ARGUMENTS[argument_name])
         args = parser.parse_args(strict=True)
@@ -97,13 +101,12 @@ class Matminer_Distances(flask_restful.Resource):
 
         return flask.jsonify(calculated_distances)
 
+
 api.add_resource(Matminer_Distances,
                  '/v{:d}/distances/matminer/'.format(VERSION))
 
 
 ### Comparisons ###
-
-import comparisons
 class Pymatgen_Comparisons(flask_restful.Resource):
     def get(self):
         parser = RequestParser()
@@ -119,15 +122,16 @@ class Pymatgen_Comparisons(flask_restful.Resource):
 
         return flask.jsonify(calculated_comparisons)
 
+
 api.add_resource(Pymatgen_Comparisons,
                  '/v{:d}/comparisons/pymatgen/'.format(VERSION))
 
-import comparisons
+
 class Matminer_Comparisons(flask_restful.Resource):
     def get(self):
         parser = flask_restful.reqparse.RequestParser()
         argument_names = ['structures', 'preset', 'crystal_site_args',
-                          'site_stats_args', 'tolerance']
+                          'site_stats_args', 'distance_tol']
         for argument_name in argument_names:
             parser.add_argument(ARGUMENTS[argument_name])
         args = parser.parse_args(strict=True)
@@ -136,17 +140,17 @@ class Matminer_Comparisons(flask_restful.Resource):
 
         return flask.jsonify(calculated_comparisons)
 
+
 api.add_resource(Matminer_Comparisons,
                  '/v{:d}/comparisons/matminer/'.format(VERSION))
 
 
 ### Fingerprints ###
-import fingerprints
 class Matminer_Fingerprints(flask_restful.Resource):
     def get(self):
         parser = flask_restful.reqparse.RequestParser()
         argument_names = ['structures', 'preset', 'crystal_site_args',
-                          'site_stats_args', 'tolerance']
+                          'site_stats_args']
         for argument_name in argument_names:
             parser.add_argument(ARGUMENTS[argument_name])
         args = parser.parse_args(strict=True)
@@ -155,11 +159,12 @@ class Matminer_Fingerprints(flask_restful.Resource):
 
         return flask.jsonify(calculated_fingerprints)
 
+
 api.add_resource(Matminer_Fingerprints,
                  '/v{:d}/fingerprints/matminer/'.format(VERSION))
 
-import fingerprints
-class Spglib_Fingerprints(flask_restful.Resource):
+
+class Stidy_Fingerprints(flask_restful.Resource):
     def get(self):
         parser = flask_restful.reqparse.RequestParser()
         argument_names = ['structures', 'symprec', 'angle_tolerance']
@@ -167,12 +172,13 @@ class Spglib_Fingerprints(flask_restful.Resource):
             parser.add_argument(ARGUMENTS[argument_name])
         args = parser.parse_args(strict=True)
         args['structures'] = flask.json.loads(args['structures'])
-        calculated_fingerprints = fingerprints.spglib_fingerprints(**args)
+        calculated_fingerprints = fingerprints.stidy_fingerprints(**args)
 
         return flask.jsonify(calculated_fingerprints)
 
-api.add_resource(Spglib_Fingerprints,
-                 '/v{:d}/fingerprints/spglib/'.format(VERSION))
+
+api.add_resource(Stidy_Fingerprints,
+                 '/v{:d}/fingerprints/stidy/'.format(VERSION))
 
 if __name__ == '__main__':
     app.run(debug=True)
