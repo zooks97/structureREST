@@ -20,6 +20,8 @@ db = client[DB]
 input_collection = db[INPUT_COLLECTION]
 output_collection = db[OUTPUT_COLLECTION]
 
+for handler in logging.root.handlers[:]:
+    logging.root.removeHandler(handler)
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s',
                     level=logging.DEBUG,
                     filename='matminer_fingerprint_test.log')
@@ -46,11 +48,13 @@ while len(documents) < N:
                             'stidy_fingerprint': None}
                 documents.append(document)
                 if not (len(documents) % (N / 10)):
-                    logging.info('{} documents collected'.format(len(documents)))
+                    logging.info(
+                        '{} documents collected'.format(len(documents)))
             except Exception as e:
                 logging.error('source_id: {} {}'.format(material['_id'], e))
         else:
-            logging.error('Too large, {} atoms {}'.format(len(structure.sites), material['_id']))
+            logging.error('Too large, {} atoms {}'.format(
+                len(structure.sites), material['_id']))
     else:
         logging.error('Unordered {}'.format(material['_id']))
 

@@ -7,6 +7,19 @@ import stidy
 import multiprocessing as mp
 from os.path import isfile
 from os import remove
+import functools
+import logging
+logger = logging.getLogger(__name__)
+
+
+def matminer_wrapper(structure, preset, crystal_site_args, site_stats_args):
+    csf = CrystalSiteFingerprint.from_preset(preset, **crystal_site_args)
+    ssf = SiteStatsFingerprint(csf, **site_stats_args)
+    try:
+        return ssf.featurize(structure)
+    except Exception as e:
+        print('Exception caught!')
+        logger.error(e)
 
 
 def matminer_fingerprints(structures, preset='cn', crystal_site_args={}, site_stats_args={}):
@@ -22,17 +35,14 @@ def matminer_fingerprints(structures, preset='cn', crystal_site_args={}, site_st
     Returns:
         [[float]]: fingerprint vectors for each structure
     '''
-    def error_catcher(error):
-        return None
-
     structures = [Structure.from_dict(structure)
                   for structure in structures]
     csf = CrystalSiteFingerprint.from_preset(preset, **crystal_site_args)
     ssf = SiteStatsFingerprint(csf, **site_stats_args)
     pool = mp.Pool()
-    v_results = pool.map_async(
-        ssf.featurize, structures, error_callback=error_catcher)
-    v = v_results.get()
+    stars = [(structure, preset, crystal_site_args, site_stats_args)
+             for structure in structures]
+    v = pool.starmap(matminer_wrapper, stars)
     pool.close()
     pool.join()
     return v
@@ -64,7 +74,10 @@ def stidy_fingerprints(structures, symprec=0.01, angle_tolerance=5.):
 
     fingerprints = [s.wyckoff_fingerprint for s in stidy_outputs]
     fingerprints = [f[0] if f else None for f in fingerprints]
+    # for i, f in enumerate(fingerprints):
+    #     if not f:
+    #         print(stidy_outputs[i].output)
     if isfile('check.def'):
         remove('check.def')
     # return fingerprints
-    return stidy_outputs
+    return fingerprints
