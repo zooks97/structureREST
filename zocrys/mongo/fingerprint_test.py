@@ -11,8 +11,8 @@ from pymatgen import Structure
 DB = 'structureREST'
 INPUT_COLLECTION = 'icsd'
 OUTPUT_COLLECTION = 'fingerprint_test'
-N = 1000
-MAX_SITES = 50
+N = 10000
+MAX_SITES = 64
 
 client = pymongo.MongoClient('mongodb://localhost:27017/')
 db = client[DB]
@@ -58,15 +58,15 @@ while len(documents) < N:
     else:
         logging.error('Unordered {}'.format(material['_id']))
 
-# logging.info('Calcluating matminer fingerprints')
-# matminer_fingerprints = fingerprints.matminer_fingerprints(structures)
+logging.info('Calcluating matminer fingerprints')
+matminer_fingerprints = fingerprints.matminer_fingerprints(structures)
 
 logging.info('Calculating STRUCTURE TIDY fingerprints')
 stidy_fingerprints = fingerprints.stidy_fingerprints(structures)
 
 logging.info('Adding fingerprints to documents')
 for d, document in enumerate(documents):
-    #     documents[d]['matminer_fingerprint'] = matminer_fingerprints[d]
+        documents[d]['matminer_fingerprint'] = matminer_fingerprints[d]
     documents[d]['stidy_fingerprint'] = stidy_fingerprints[d]
 
 logging.info('Inserting {} documents into {}'.format(
