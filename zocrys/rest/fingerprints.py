@@ -37,8 +37,8 @@ def matminer_fingerprints(structures, preset='cn', crystal_site_args={}, site_st
     '''
     structures = [Structure.from_dict(structure)
                   for structure in structures]
-    csf = CrystalSiteFingerprint.from_preset(preset, **crystal_site_args)
-    ssf = SiteStatsFingerprint(csf, **site_stats_args)
+    # csf = CrystalSiteFingerprint.from_preset(preset, **crystal_site_args)
+    # ssf = SiteStatsFingerprint(csf, **site_stats_args)
     pool = mp.Pool()
     stars = [(structure, preset, crystal_site_args, site_stats_args)
              for structure in structures]
@@ -62,12 +62,9 @@ def stidy_fingerprints(structures, symprec=0.01, angle_tolerance=5.):
     Returns:
         [str]: wyckoff fingerprints
     '''
-    def error_catcher(error):
-        return None
     structures = [Structure.from_dict(structure) for structure in structures]
     pool = mp.Pool()
-    stidy_results = pool.map_async(
-        stidy.stidy, structures, error_callback=error_catcher)
+    stidy_results = pool.map(stidy.stidy, structures)
     stidy_outputs = stidy_results.get()
     pool.close()
     pool.join()

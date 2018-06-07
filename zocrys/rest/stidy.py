@@ -198,7 +198,7 @@ class StidyParser(object):
         return fingerprints
 
 
-def stidy(structure, exact=True, ang=1., d1=0.25, d2=0.25, d3=0.25):
+def stidy(structure, exact=True, ang=1., d1=0.25, d2=0.25, d3=0.25, timeout=15):
     '''
     Run STRUCTURE TIDY as implemented in the PLATON software package.
     PLATON must either be in the PATH or in ../bin.
@@ -236,10 +236,10 @@ def stidy(structure, exact=True, ang=1., d1=0.25, d2=0.25, d3=0.25):
                                    stdin=PIPE)
         if exact:
             addsym_shx_process.communicate(
-                input=b'ADDSYM_SHX EXACT')
+                input=b'ADDSYM_SHX EXACT', timeout=timeout)
         else:
             addsym_shx_process.communicate(
-                input=b'ADDSYM_SHX {} {} {} {}'.format(ang, d1, d2, d3))
+                input=b'ADDSYM_SHX {} {} {} {}'.format(ang, d1, d2, d3), timeout=timeout)
         # call STIDY on the ADDSYM_SHX output
         temp_file_dirname, temp_file_basename = os.path.split(
             temp_file.name)
