@@ -66,7 +66,7 @@ stidy_fingerprints = fingerprints.stidy_fingerprints(structures)
 
 logging.info('Adding fingerprints to documents')
 for d, document in enumerate(documents):
-        documents[d]['matminer_fingerprint'] = matminer_fingerprints[d]
+    documents[d]['matminer_fingerprint'] = matminer_fingerprints[d]
     documents[d]['stidy_fingerprint'] = stidy_fingerprints[d]
 
 logging.info('Inserting {} documents into {}'.format(
