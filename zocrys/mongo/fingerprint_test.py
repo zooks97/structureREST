@@ -24,7 +24,7 @@ for handler in logging.root.handlers[:]:
     logging.root.removeHandler(handler)
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s',
                     level=logging.DEBUG,
-                    filename='matminer_fingerprint_test.log')
+                    filename='fingerprint_test.log')
 
 logging.info('Starting to fingerprint')
 materials = input_collection.find()
