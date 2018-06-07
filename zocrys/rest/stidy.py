@@ -173,9 +173,9 @@ class StidyParser(object):
         str: Wickoff fingerprint of the form
             [space group number]_[Wyckoff_number_for_each_site]
         '''
-        ascii_iter = iter(ascii_uppercase)
         fingerprints = []
         for sites, wyckoff in zip(self.sites, self.wyckoff):
+            ascii_iter = iter(ascii_uppercase)
             symbols = [site[5] for site in sites]
             symbol_map = {}
             for symbol in symbols:
@@ -257,7 +257,7 @@ def stidy(structure, exact=True, ang=1., d1=0.25, d2=0.25, d3=0.25):
     stidy_output = stidy_data[0].decode('utf-8')
 
     # clean up files
-    if os.path.isfile('check.def'):
-        remove('check.def')
+    # if os.path.isfile('check.def'):
+    #     remove('check.def')
 
     return StidyParser(stidy_output)

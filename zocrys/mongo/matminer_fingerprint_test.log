@@ -117,3 +117,135 @@ Options selected for Qhull 2015.2.r 2016/01/18:
 2018-06-06 15:32:41,023 - ERROR - Unordered 5b07c92de9681a06716f4282
 2018-06-06 15:32:49,330 - ERROR - Unordered 5b07c92de9681a06716f428c
 2018-06-06 15:32:49,887 - ERROR - Unordered 5b07c92de9681a06716f428e
+2018-06-06 16:05:07,433 - ERROR - Unordered 5b07c92de9681a06716f4292
+2018-06-06 16:05:07,887 - ERROR - Unordered 5b07c92de9681a06716f4294
+2018-06-06 16:05:07,888 - ERROR - Unordered 5b07c92de9681a06716f4295
+2018-06-06 16:05:10,647 - ERROR - Unordered 5b07c92de9681a06716f42a4
+2018-06-06 16:05:18,685 - ERROR - Unordered 5b07c92de9681a06716f42a9
+2018-06-06 16:05:39,617 - ERROR - Unordered 5b07c92de9681a06716f42b0
+2018-06-06 16:05:45,297 - ERROR - Unordered 5b07c92de9681a06716f42b9
+2018-06-06 16:05:51,607 - ERROR - Unordered 5b07c92de9681a06716f42c6
+2018-06-06 16:06:25,249 - ERROR - Unordered 5b07c92de9681a06716f42e1
+2018-06-06 16:06:34,811 - ERROR - Unordered 5b07c92de9681a06716f42e5
+2018-06-06 16:06:34,812 - ERROR - Unordered 5b07c92de9681a06716f42e6
+2018-06-06 16:06:43,739 - INFO - 600 documents collected
+2018-06-06 16:06:53,082 - ERROR - Unordered 5b07c92de9681a06716f42f3
+2018-06-06 16:07:23,513 - ERROR - Unordered 5b07c92de9681a06716f430e
+2018-06-06 16:10:41,921 - ERROR - source_id: 5b07c92de9681a06716f432f QH6214 qhull input error: not enough points(1) to construct initial simplex (need 5)
+
+While executing:  | qhull v Qz Qc Qbb
+Options selected for Qhull 2015.2.r 2016/01/18:
+  run-id 2136890367  voronoi  Qz-infinity-point  Qcoplanar-keep  Qbbound-last
+  _pre-merge  _zero-centrum  Qinterior-keep
+
+2018-06-06 16:10:41,922 - ERROR - source_id: 5b07c92de9681a06716f4330 QH6214 qhull input error: not enough points(1) to construct initial simplex (need 5)
+
+While executing:  | qhull v Qz Qc Qbb
+Options selected for Qhull 2015.2.r 2016/01/18:
+  run-id 2136890367  voronoi  Qz-infinity-point  Qcoplanar-keep  Qbbound-last
+  _pre-merge  _zero-centrum  Qinterior-keep
+
+2018-06-06 16:10:41,924 - ERROR - source_id: 5b07c92de9681a06716f4331 QH6214 qhull input error: not enough points(1) to construct initial simplex (need 5)
+
+While executing:  | qhull v Qz Qc Qbb
+Options selected for Qhull 2015.2.r 2016/01/18:
+  run-id 2136890367  voronoi  Qz-infinity-point  Qcoplanar-keep  Qbbound-last
+  _pre-merge  _zero-centrum  Qinterior-keep
+
+2018-06-06 16:10:41,925 - ERROR - source_id: 5b07c92de9681a06716f4332 QH6214 qhull input error: not enough points(1) to construct initial simplex (need 5)
+
+While executing:  | qhull v Qz Qc Qbb
+Options selected for Qhull 2015.2.r 2016/01/18:
+  run-id 2136890367  voronoi  Qz-infinity-point  Qcoplanar-keep  Qbbound-last
+  _pre-merge  _zero-centrum  Qinterior-keep
+
+2018-06-06 16:10:41,926 - ERROR - source_id: 5b07c92de9681a06716f4333 QH6214 qhull input error: not enough points(1) to construct initial simplex (need 5)
+
+While executing:  | qhull v Qz Qc Qbb
+Options selected for Qhull 2015.2.r 2016/01/18:
+  run-id 2136890367  voronoi  Qz-infinity-point  Qcoplanar-keep  Qbbound-last
+  _pre-merge  _zero-centrum  Qinterior-keep
+
+2018-06-06 16:10:43,982 - ERROR - Unordered 5b07c92de9681a06716f433c
+2018-06-06 16:10:44,458 - ERROR - Unordered 5b07c92de9681a06716f433e
+2018-06-06 16:11:04,011 - INFO - 700 documents collected
+2018-06-06 16:11:17,391 - ERROR - Unordered 5b07c92de9681a06716f4369
+2018-06-06 16:11:17,392 - ERROR - Unordered 5b07c92de9681a06716f436a
+2018-06-06 16:11:17,394 - ERROR - Unordered 5b07c92de9681a06716f436b
+2018-06-06 16:11:19,357 - ERROR - Unordered 5b07c92de9681a06716f436f
+2018-06-06 16:11:19,358 - ERROR - Unordered 5b07c92de9681a06716f4370
+2018-06-06 16:11:19,592 - ERROR - Unordered 5b07c92de9681a06716f4373
+2018-06-06 16:11:19,593 - ERROR - Unordered 5b07c92de9681a06716f4374
+2018-06-06 16:11:19,752 - ERROR - Unordered 5b07c92de9681a06716f4377
+2018-06-06 16:11:19,752 - ERROR - Unordered 5b07c92de9681a06716f4378
+2018-06-06 16:13:37,435 - ERROR - Unordered 5b07c92de9681a06716f4382
+2018-06-06 16:13:40,002 - ERROR - Unordered 5b07c92de9681a06716f438f
+2018-06-06 16:13:40,858 - ERROR - Unordered 5b07c92de9681a06716f439b
+2018-06-06 16:13:40,896 - ERROR - Unordered 5b07c92de9681a06716f439d
+2018-06-06 16:13:45,892 - ERROR - Unordered 5b07c92de9681a06716f43b4
+2018-06-06 16:13:45,971 - ERROR - Unordered 5b07c92de9681a06716f43b6
+2018-06-06 16:13:45,972 - ERROR - Unordered 5b07c92de9681a06716f43b7
+2018-06-06 16:13:45,973 - ERROR - Unordered 5b07c92de9681a06716f43b8
+2018-06-06 16:13:46,132 - ERROR - Unordered 5b07c92de9681a06716f43bb
+2018-06-06 16:13:53,815 - INFO - 800 documents collected
+2018-06-06 16:13:53,868 - ERROR - Unordered 5b07c92de9681a06716f43d0
+2018-06-06 16:13:53,868 - ERROR - Unordered 5b07c92de9681a06716f43d1
+2018-06-06 16:13:53,869 - ERROR - Unordered 5b07c92de9681a06716f43d2
+2018-06-06 16:13:53,869 - ERROR - Unordered 5b07c92de9681a06716f43d3
+2018-06-06 16:13:53,870 - ERROR - Unordered 5b07c92de9681a06716f43d4
+2018-06-06 16:13:54,047 - ERROR - Unordered 5b07c92de9681a06716f43d6
+2018-06-06 16:13:54,048 - ERROR - Unordered 5b07c92de9681a06716f43d7
+2018-06-06 16:13:54,049 - ERROR - Unordered 5b07c92de9681a06716f43d8
+2018-06-06 16:13:54,050 - ERROR - Unordered 5b07c92de9681a06716f43d9
+2018-06-06 16:13:54,053 - ERROR - Unordered 5b07c92de9681a06716f43da
+2018-06-06 16:13:54,056 - ERROR - Unordered 5b07c92de9681a06716f43db
+2018-06-06 16:13:54,056 - ERROR - Unordered 5b07c92de9681a06716f43dc
+2018-06-06 16:13:54,061 - ERROR - Unordered 5b07c92de9681a06716f43dd
+2018-06-06 16:13:54,061 - ERROR - Unordered 5b07c92de9681a06716f43de
+2018-06-06 16:13:54,062 - ERROR - Unordered 5b07c92de9681a06716f43df
+2018-06-06 16:13:54,066 - ERROR - Unordered 5b07c92de9681a06716f43e0
+2018-06-06 16:13:54,070 - ERROR - Unordered 5b07c92de9681a06716f43e1
+2018-06-06 16:13:54,713 - ERROR - Unordered 5b07c92de9681a06716f43e3
+2018-06-06 16:13:54,812 - ERROR - Unordered 5b07c92de9681a06716f43e6
+2018-06-06 16:13:54,812 - ERROR - Unordered 5b07c92de9681a06716f43e7
+2018-06-06 16:13:55,519 - ERROR - Unordered 5b07c92de9681a06716f43ee
+2018-06-06 16:13:55,520 - ERROR - Unordered 5b07c92de9681a06716f43ef
+2018-06-06 16:13:55,648 - ERROR - Unordered 5b07c92de9681a06716f43f1
+2018-06-06 16:13:55,649 - ERROR - Unordered 5b07c92de9681a06716f43f2
+2018-06-06 16:13:58,747 - ERROR - Unordered 5b07c92de9681a06716f43f6
+2018-06-06 16:13:58,747 - ERROR - Unordered 5b07c92de9681a06716f43f7
+2018-06-06 16:13:58,748 - ERROR - Unordered 5b07c92de9681a06716f43f8
+2018-06-06 16:14:39,529 - ERROR - Unordered 5b07c92de9681a06716f4430
+2018-06-06 16:14:41,414 - ERROR - Unordered 5b07c92de9681a06716f4447
+2018-06-06 16:14:41,414 - ERROR - Unordered 5b07c92de9681a06716f4448
+2018-06-06 16:14:41,414 - ERROR - Unordered 5b07c92de9681a06716f4449
+2018-06-06 16:14:41,415 - ERROR - Unordered 5b07c92de9681a06716f444a
+2018-06-06 16:14:41,415 - ERROR - Unordered 5b07c92de9681a06716f444b
+2018-06-06 16:14:41,416 - ERROR - Unordered 5b07c92de9681a06716f444c
+2018-06-06 16:14:41,416 - ERROR - Unordered 5b07c92de9681a06716f444d
+2018-06-06 16:14:41,417 - ERROR - Unordered 5b07c92de9681a06716f444e
+2018-06-06 16:14:41,979 - INFO - 900 documents collected
+2018-06-06 16:14:42,653 - ERROR - Unordered 5b07c92de9681a06716f4466
+2018-06-06 16:14:42,654 - ERROR - Unordered 5b07c92de9681a06716f4467
+2018-06-06 16:16:26,728 - ERROR - Unordered 5b07c92de9681a06716f447f
+2018-06-06 16:16:27,356 - ERROR - Unordered 5b07c92de9681a06716f4482
+2018-06-06 16:16:27,357 - ERROR - Unordered 5b07c92de9681a06716f4483
+2018-06-06 16:16:32,416 - ERROR - Unordered 5b07c92de9681a06716f448c
+2018-06-06 16:16:35,443 - ERROR - Unordered 5b07c92de9681a06716f4492
+2018-06-06 16:16:35,443 - ERROR - Unordered 5b07c92de9681a06716f4493
+2018-06-06 16:16:35,444 - ERROR - Unordered 5b07c92de9681a06716f4494
+2018-06-06 16:16:35,444 - ERROR - Unordered 5b07c92de9681a06716f4495
+2018-06-06 16:16:36,021 - ERROR - Unordered 5b07c92de9681a06716f4497
+2018-06-06 16:16:36,308 - ERROR - Unordered 5b07c92de9681a06716f449b
+2018-06-06 16:16:38,224 - ERROR - Unordered 5b07c92de9681a06716f44a0
+2018-06-06 16:16:38,335 - ERROR - Unordered 5b07c92de9681a06716f44a3
+2018-06-06 16:16:38,335 - ERROR - Unordered 5b07c92de9681a06716f44a4
+2018-06-06 16:16:38,336 - ERROR - Unordered 5b07c92de9681a06716f44a5
+2018-06-06 16:16:38,366 - ERROR - Unordered 5b07c92de9681a06716f44a7
+2018-06-06 16:16:38,530 - ERROR - Unordered 5b07c92de9681a06716f44a9
+2018-06-06 16:16:48,609 - ERROR - Unordered 5b07c92de9681a06716f44b5
+2018-06-06 16:18:45,797 - ERROR - Unordered 5b07c92de9681a06716f44bc
+2018-06-06 16:18:54,610 - ERROR - Unordered 5b07c92de9681a06716f44cc
+2018-06-06 16:18:54,875 - INFO - Inserting 1000 documents into matminer_fingerprint
+2018-06-06 16:18:55,012 - INFO - Inserted 1000 documents
+2018-06-06 16:18:55,016 - INFO - Finished

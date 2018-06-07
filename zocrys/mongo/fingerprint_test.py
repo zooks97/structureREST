@@ -10,8 +10,9 @@ from pymatgen import Structure
 
 DB = 'structureREST'
 INPUT_COLLECTION = 'icsd'
-OUTPUT_COLLECTION = 'matminer_fingerprint'
+OUTPUT_COLLECTION = 'fingerprint_test'
 N = 1000
+MAX_SITES = 50
 
 client = pymongo.MongoClient('mongodb://localhost:27017/')
 db = client[DB]
@@ -25,10 +26,9 @@ logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s',
 
 logging.info('Starting to fingerprint')
 materials = input_collection.find()
+structures = []
 documents = []
 while len(documents) < N:
-    if not (len(documents) % (N / 10)):
-        logging.info('{} documents collected'.format(len(documents)))
     material, structure, document = [None] * 3
     try:
         material = materials.next()
@@ -36,16 +36,31 @@ while len(documents) < N:
         logging.critical('Could not get next material: {}'.format(e))
         raise Exception(e)
     structure = Structure.from_dict(material['structure'])
-    if structure.is_ordered:
+    if structure.is_ordered and (len(structure.sites) < MAX_SITES):
         try:
+            structures.append(material['structure'])
             document = {'source_id': material['_id'],
-                        'fingerprint': fingerprints.matminer_fingerprints([material['structure']])[0]}
+                        'soruce_collection': INPUT_COLLECTION,
+                        'matminer_fingerprint': None,
+                        'stidy_fingerprint': None}
             documents.append(document)
+            if not (len(documents) % (N / 10)):
+                logging.info('{} documents collected'.format(len(documents)))
         except Exception as e:
             logging.error('source_id: {} {}'.format(material['_id'], e))
     else:
         logging.error('Unordered {}'.format(material['_id']))
-print(len(documents))
+
+logging.info('Calcluating matminer fingerprints')
+matminer_fingerprints = fingerprints.matminer_fingerprints(structures)
+
+logging.info('Calculating STRUCTURE TIDY fingerprints')
+stidy_fingerprints = fingerprints.stidy_fingerprints(structures)
+
+logging.info('Adding fingerprints to documents')
+for d, document in enumerate(documents):
+    documents[d]['matminer_fingerprint'] = matminer_fingerprints[d]
+    documents[d]['stidy_fingerprint'] = stidy_fingerprints[d]
 
 logging.info('Inserting {} documents into {}'.format(
     len(documents), OUTPUT_COLLECTION))

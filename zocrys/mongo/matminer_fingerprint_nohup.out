@@ -1,0 +1,5 @@
+/usr/local/miniconda3/envs/structure/lib/python3.6/site-packages/pymatgen/analysis/local_env.py:1002: RuntimeWarning:
+
+divide by zero encountered in double_scalars
+
+1000
