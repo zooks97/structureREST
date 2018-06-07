@@ -30,7 +30,9 @@ def matminer_fingerprints(structures, preset='cn', crystal_site_args={}, site_st
     csf = CrystalSiteFingerprint.from_preset(preset, **crystal_site_args)
     ssf = SiteStatsFingerprint(csf, **site_stats_args)
     pool = mp.Pool()
-    v = pool.map_async(ssf.featurize, structures, error_callback=error_catcher)
+    v_results = pool.map_async(
+        ssf.featurize, structures, error_callback=error_catcher)
+    v = v_results.get()
     pool.close()
     pool.join()
     return v
@@ -54,12 +56,15 @@ def stidy_fingerprints(structures, symprec=0.01, angle_tolerance=5.):
         return None
     structures = [Structure.from_dict(structure) for structure in structures]
     pool = mp.Pool()
-    stidy_outputs = pool.map_async(
+    stidy_results = pool.map_async(
         stidy.stidy, structures, error_callback=error_catcher)
+    stidy_outputs = stidy_results.get()
     pool.close()
     pool.join()
+
     fingerprints = [s.wyckoff_fingerprint for s in stidy_outputs]
     fingerprints = [f[0] if f else None for f in fingerprints]
     if isfile('check.def'):
         remove('check.def')
-    return fingerprints
+    # return fingerprints
+    return stidy_outputs
