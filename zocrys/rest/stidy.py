@@ -9,6 +9,8 @@ from pymatgen import Structure, Lattice
 from pymatgen.io.cif import CifWriter
 import re
 import os.path
+import logging
+logger = logging.getLogger(__name__)
 
 
 class StidyParser(object):
@@ -223,7 +225,7 @@ def stidy(structure, exact=True, ang=1., d1=0.25, d2=0.25, d3=0.25, timeout=15):
     '''
     PLATON = find_executable('platon')
     if not PLATON:
-        PLATON = '../bin/platon'
+        PLATON = '../bin/platon1'
 
     with NamedTemporaryFile(suffix='.cif') as temp_file:
         # write temporary cif file
@@ -235,11 +237,17 @@ def stidy(structure, exact=True, ang=1., d1=0.25, d2=0.25, d3=0.25, timeout=15):
                                    stderr=STDOUT,
                                    stdin=PIPE)
         if exact:
-            addsym_shx_process.communicate(
-                input=b'ADDSYM_SHX EXACT', timeout=timeout)
+            try:
+                addsym_shx_process.communicate(
+                    input=b'ADDSYM_SHX EXACT', timeout=timeout)
+            except Exception as e:
+                logger.error(e)
         else:
-            addsym_shx_process.communicate(
-                input=b'ADDSYM_SHX {} {} {} {}'.format(ang, d1, d2, d3), timeout=timeout)
+            try:
+                addsym_shx_process.communicate(
+                    input=b'ADDSYM_SHX {} {} {} {}'.format(ang, d1, d2, d3), timeout=timeout)
+            except Exception as e:
+                logger.error(e)
         # call STIDY on the ADDSYM_SHX output
         temp_file_dirname, temp_file_basename = os.path.split(
             temp_file.name)
