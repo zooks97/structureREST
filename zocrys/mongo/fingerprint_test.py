@@ -61,13 +61,13 @@ while len(documents) < N:
 logging.info('Calcluating matminer fingerprints')
 matminer_fingerprints = fingerprints.matminer_fingerprints(structures)
 
-# logging.info('Calculating STRUCTURE TIDY fingerprints')
-# stidy_fingerprints = fingerprints.stidy_fingerprints(structures)
+logging.info('Calculating STRUCTURE TIDY fingerprints')
+stidy_fingerprints = fingerprints.stidy_fingerprints(structures)
 
 logging.info('Adding fingerprints to documents')
 for d, document in enumerate(documents):
     documents[d]['matminer_fingerprint'] = matminer_fingerprints[d]
-#     documents[d]['stidy_fingerprint'] = stidy_fingerprints[d]
+    documents[d]['stidy_fingerprint'] = stidy_fingerprints[d]
 
 logging.info('Inserting {} documents into {}'.format(
     len(documents), OUTPUT_COLLECTION))
