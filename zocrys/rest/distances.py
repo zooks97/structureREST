@@ -11,6 +11,10 @@ from pymatgen.analysis.structure_matcher import (StructureMatcher,
 from matminer.featurizers.site import CrystalSiteFingerprint
 from matminer.featurizers.structure import SiteStatsFingerprint
 import numpy as np
+import fingerprints
+import multiprocessing as mp
+# import logging
+# logger = logging.getLogger(__name__)
 
 
 def matminer_distances(structures, preset='cn', crystal_site_args={},
@@ -31,9 +35,8 @@ def matminer_distances(structures, preset='cn', crystal_site_args={},
     '''
     structures = [Structure.from_dict(structure)
                   for structure in structures]
-    csf = CrystalSiteFingerprint.from_preset(preset, **crystal_site_args)
-    ssf = SiteStatsFingerprint(csf, **site_stats_args)
-    v = [ssf.featurize(structure) for structure in structures]
+    v = fingerprints.matminer_fingerprints(
+        structures, preset=preset, cyrstal_site_args=crystal_site_args, site_stats_args=site_stats_args)
     distances = []
     for i, v_1 in enumerate(v):
         for j, v_2 in enumerate(v[i:]):
@@ -74,19 +77,29 @@ def pymatgen_distances(structures, comparator='OccupancyComparator',
                    'SpinComparator': SpinComparator,
                    None: None}
     comparator = comparators[comparator]()
+    structure_matcher = StructureMatcher(comparator=comparator, **kwargs)
     structures = [Structure.from_dict(structure)
                   for structure in structures]
+    stars = []
     distances = []
     for i, struct_1 in enumerate(structures):
         for j, struct_2 in enumerate(structures[i:]):
             if i != j + i:
-                print(i, )
-                structure_matcher = StructureMatcher(comparator=comparator,
-                                                     **kwargs)
-                distance = structure_matcher.get_rms_dist(struct_1, struct_2)
-                if distance is not None:
-                    distance = list(distance)
-                    if distance[0] <= distance_tol:
-                        distance[0] = 0.
-                distances.append(distance)
+                stars.append((struct_1, struct_2))
+                # distance = structure_matcher.get_rms_dist(struct_1, struct_2)
+                # if distance is not None:
+                #     distance = list(distance)
+                #     if distance[0] <= distance_tol:
+                #         distance[0] = 0.
+                # distances.append(distance)
+    pool = mp.Pool()
+    distances = pool.starmap(structure_matcher.get_rms_dist, stars)
+    pool.close()
+    pool.join()
+    for d, distance in distances:
+        if distance is not None:
+            distance = list(distance)
+            if distance[0] <= distance_tol:
+                distance[0] = 0.
+        distances[d] = distance
     return distances

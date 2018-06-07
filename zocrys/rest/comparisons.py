@@ -11,6 +11,8 @@ from pymatgen.analysis.structure_matcher import (StructureMatcher,
 from matminer.featurizers.site import CrystalSiteFingerprint
 from matminer.featurizers.structure import SiteStatsFingerprint
 import numpy as np
+import fingerprints
+import multiprocessing as mp
 
 
 def matminer_comparisons(structures, preset='cn', crystal_site_args={},
@@ -31,18 +33,17 @@ def matminer_comparisons(structures, preset='cn', crystal_site_args={},
     '''
     structures = [Structure.from_dict(structure)
                   for structure in structures]
-    csf = CrystalSiteFingerprint.from_preset(preset, **crystal_site_args)
-    ssf = SiteStatsFingerprint(csf, **site_stats_args)
-    v = [ssf.featurize(structure) for structure in structures]
-    comparisons = []
+    v = fingerprints.matminer_fingerprints(
+        structures, preset=preset, cyrstal_site_args=crystal_site_args, site_stats_args=site_stats_args)
+    distances = []
     for i, v_1 in enumerate(v):
         for j, v_2 in enumerate(v[i:]):
             if i != j + i:
                 distance = np.linalg.norm(np.array(v_1) - np.array(v_2))
                 if distance <= distance_tol:
                     distance = 0.
-                comparisons.append(not bool(distance))
-    return comparisons
+                distances.append(not bool(distance))
+    return distances
 
 
 def pymatgen_comparisons(structures, comparator='OccupancyComparator', anonymous=False,
@@ -74,18 +75,25 @@ def pymatgen_comparisons(structures, comparator='OccupancyComparator', anonymous
                    'SpinComparator': SpinComparator,
                    None: None}
     comparator = comparators[comparator]()
+    structure_matcher = StructureMatcher(comparator=comparator,
+                                         **kwargs)
     structures = [Structure.from_dict(structure)
                   for structure in structures]
+    stars = []
     comparisons = []
     for i, struct_1 in enumerate(structures):
         for j, struct_2 in enumerate(structures[i:]):
             if i != j + i:
-                structure_matcher = StructureMatcher(comparator=comparator,
-                                                     **kwargs)
-                if anonymous:
-                    comparison = structure_matcher.fit_anonymous(
-                        struct_1, struct_2)
-                else:
-                    comparison = structure_matcher.fit(struct_1, struct_2)
-                comparisons.append(bool(comparison))
+                stars.append((struct_1, struct_2))
+                # if anonymous:
+                #     comparison = structure_matcher.fit_anonymous(
+                #         struct_1, struct_2)
+                # else:
+                #     comparison = structure_matcher.fit(struct_1, struct_2)
+                # comparisons.append(bool(comparison))
+    pool = mp.Pool()
+    if anonymous:
+        comparisons = pool.starmap(structure_matcher.fit_anonymous, stars)
+    else:
+        comparisons = pool.starmap(structure_matcher.fit, stars)
     return comparisons
