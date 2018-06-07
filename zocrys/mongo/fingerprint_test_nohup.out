@@ -1,7 +1,0 @@
-Exception caught!
-Exception caught!
-Exception caught!
-/home/azadoks/miniconda3/envs/structureREST3/lib/python3.6/site-packages/pymatgen/analysis/local_env.py:1079: RuntimeWarning:
-
-divide by zero encountered in double_scalars
-
