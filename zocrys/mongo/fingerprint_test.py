@@ -36,26 +36,29 @@ while len(documents) < N:
         logging.critical('Could not get next material: {}'.format(e))
         raise Exception(e)
     structure = Structure.from_dict(material['structure'])
-    if structure.is_ordered and (len(structure.sites) < MAX_SITES):
-        try:
-            structures.append(material['structure'])
-            document = {'source_id': material['_id'],
-                        'soruce_collection': INPUT_COLLECTION,
-                        'matminer_fingerprint': None,
-                        'stidy_fingerprint': None}
-            documents.append(document)
-            if not (len(documents) % (N / 10)):
-                logging.info('{} documents collected'.format(len(documents)))
-        except Exception as e:
-            logging.error('source_id: {} {}'.format(material['_id'], e))
+    if structure.is_ordered:
+        if (len(structure.sites) < MAX_SITES):
+            try:
+                structures.append(material['structure'])
+                document = {'source_id': material['_id'],
+                            'soruce_collection': INPUT_COLLECTION,
+                            'matminer_fingerprint': None,
+                            'stidy_fingerprint': None}
+                documents.append(document)
+                if not (len(documents) % (N / 10)):
+                    logging.info('{} documents collected'.format(len(documents)))
+            except Exception as e:
+                logging.error('source_id: {} {}'.format(material['_id'], e))
+        else:
+            logging.error('Too large, {} atoms {}'.format(len(structure.sites), material['_id']))
     else:
         logging.error('Unordered {}'.format(material['_id']))
 
 logging.info('Calcluating matminer fingerprints')
 matminer_fingerprints = fingerprints.matminer_fingerprints(structures)
 
-logging.info('Calculating STRUCTURE TIDY fingerprints')
-stidy_fingerprints = fingerprints.stidy_fingerprints(structures)
+# logging.info('Calculating STRUCTURE TIDY fingerprints')
+# stidy_fingerprints = fingerprints.stidy_fingerprints(structures)
 
 logging.info('Adding fingerprints to documents')
 for d, document in enumerate(documents):
