@@ -64,8 +64,7 @@ def stidy_fingerprints(structures, symprec=0.01, angle_tolerance=5.):
     '''
     structures = [Structure.from_dict(structure) for structure in structures]
     pool = mp.Pool()
-    stidy_results = pool.map(stidy.stidy, structures)
-    stidy_outputs = stidy_results.get()
+    stidy_outputs = pool.map(stidy.stidy, structures)
     pool.close()
     pool.join()
 
