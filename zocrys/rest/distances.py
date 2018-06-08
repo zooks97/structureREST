@@ -92,6 +92,7 @@ def pymatgen_distances(structures, comparator='OccupancyComparator',
                 #     if distance[0] <= distance_tol:
                 #         distance[0] = 0.
                 # distances.append(distance)
+    print(stars)
     pool = mp.Pool()
     distances = pool.starmap(structure_matcher.get_rms_dist, stars)
     pool.close()
