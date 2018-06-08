@@ -31,10 +31,10 @@ def matminer_comparisons(structures, preset='cn', crystal_site_args={},
         [bool]: comparisons between each pair of structures; goes like
             [1-2, 1-3, ..., 1-n, 2-3, 2-4, ..., 2-n, ...]
     '''
-    structures = [Structure.from_dict(structure)
-                  for structure in structures]
+    # structures = [Structure.from_dict(structure)
+    #               for structure in structures]
     v = fingerprints.matminer_fingerprints(
-        structures, preset=preset, cyrstal_site_args=crystal_site_args, site_stats_args=site_stats_args)
+        structures, preset=preset, crystal_site_args=crystal_site_args, site_stats_args=site_stats_args)
     distances = []
     for i, v_1 in enumerate(v):
         for j, v_2 in enumerate(v[i:]):
@@ -96,4 +96,4 @@ def pymatgen_comparisons(structures, comparator='OccupancyComparator', anonymous
         comparisons = pool.starmap(structure_matcher.fit_anonymous, stars)
     else:
         comparisons = pool.starmap(structure_matcher.fit, stars)
-    return comparisons
+    return [bool(comparison) for comparison in comparisons]

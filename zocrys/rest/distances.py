@@ -33,10 +33,10 @@ def matminer_distances(structures, preset='cn', crystal_site_args={},
         [float]: distances between each pair of structures; goes like
             [1-2, 1-3, ..., 1-n, 2-3, 2-4, ..., 2-n, ...]
     '''
-    structures = [Structure.from_dict(structure)
-                  for structure in structures]
+    # structures = [Structure.from_dict(structure)
+    #               for structure in structures]
     v = fingerprints.matminer_fingerprints(
-        structures, preset=preset, cyrstal_site_args=crystal_site_args, site_stats_args=site_stats_args)
+        structures, preset=preset, crystal_site_args=crystal_site_args, site_stats_args=site_stats_args)
     distances = []
     for i, v_1 in enumerate(v):
         for j, v_2 in enumerate(v[i:]):
@@ -92,12 +92,11 @@ def pymatgen_distances(structures, comparator='OccupancyComparator',
                 #     if distance[0] <= distance_tol:
                 #         distance[0] = 0.
                 # distances.append(distance)
-    print(stars)
     pool = mp.Pool()
     distances = pool.starmap(structure_matcher.get_rms_dist, stars)
     pool.close()
     pool.join()
-    for d, distance in distances:
+    for d, distance in enumerate(distances):
         if distance is not None:
             distance = list(distance)
             if distance[0] <= distance_tol:
