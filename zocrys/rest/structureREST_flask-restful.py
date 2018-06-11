@@ -50,7 +50,7 @@ ARGUMENTS = {
                        store_missing=False,
                        help='Use preset parameters to get the fingerprint args'),
     'crystal_site_args': Argument('crystal_site_args', type=dict, store_missing=False,
-                                  help='Arguments passed to CrystalSiteFingerprint'),
+                                  help='Arguments passed to CrystalNNFingerprint'),
     'site_stats_args': Argument('site_stats_args', type=dict, store_missing=False,
                                 help='Arguments passed to SiteStatsFingerprint'),
     'distance_tol': Argument('distance_tol', type=float, store_missing=False,

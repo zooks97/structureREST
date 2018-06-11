@@ -8,7 +8,7 @@ from pymatgen.analysis.structure_matcher import (StructureMatcher,
                                                  OccupancyComparator,
                                                  OrderDisorderElementComparator,
                                                  SpeciesComparator, SpinComparator)
-from matminer.featurizers.site import CrystalSiteFingerprint
+from matminer.featurizers.site import CrystalNNFingerprint
 from matminer.featurizers.structure import SiteStatsFingerprint
 import numpy as np
 import fingerprints
@@ -24,7 +24,7 @@ def matminer_distances(structures, preset='cn', crystal_site_args={},
 
     Args:
         structures ([dict]): dictionary-encoded pymatgen Structure objects
-        preset (str): ['cn', 'ops'] CrystalSiteFingerprint preset
+        preset (str): ['cn', 'ops'] CrystalNNFingerprint preset
         crystal_site_args (dict): **kwargs passed to CrysatlSiteFingerprint
         site_stats_args (dict): **kwargs passed to SiteStatsFingerprint
         distance_tol (float): distance below which distance will be rounded to 0

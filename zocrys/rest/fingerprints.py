@@ -1,7 +1,8 @@
 #!/usr/local/miniconda3/envs/structure/bin/python
 # -*- coding: utf-8 -*-
 from pymatgen import Structure
-from matminer.featurizers.site import CrystalSiteFingerprint
+# from matminer.featurizers.site import CrystalNNFingerprint
+from matminer.featurizers.site import CrystalNNFingerprint
 from matminer.featurizers.structure import SiteStatsFingerprint
 import stidy
 import multiprocessing as mp
@@ -13,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 
 def matminer_wrapper(structure, preset, crystal_site_args, site_stats_args):
-    csf = CrystalSiteFingerprint.from_preset(preset, **crystal_site_args)
+    csf = CrystalNNFingerprint.from_preset(preset, **crystal_site_args)
     ssf = SiteStatsFingerprint(csf, **site_stats_args)
     try:
         return ssf.featurize(structure)
@@ -28,8 +29,8 @@ def matminer_fingerprints(structures, preset='cn', crystal_site_args={}, site_st
 
     Args:
         structures ([dict]): dictionary-encoded pymatgen Structure objects
-        preset (str): ['cn', 'ops'] CrystalSiteFingerprint preset
-        crystal_site_args (dict): **kwargs passed to CrysatlSiteFingerprint
+        preset (str): ['cn', 'ops'] CrystalNNFingerprint preset
+        crystal_site_args (dict): **kwargs passed to CrystalNNFingerprint
         site_stats_args (dict): **kwargs passed to SiteStatsFingerprint
 
     Returns:
@@ -37,7 +38,7 @@ def matminer_fingerprints(structures, preset='cn', crystal_site_args={}, site_st
     '''
     structures = [Structure.from_dict(structure)
                   for structure in structures]
-    # csf = CrystalSiteFingerprint.from_preset(preset, **crystal_site_args)
+    # csf = CrystalNNFingerprint.from_preset(preset, **crystal_site_args)
     # ssf = SiteStatsFingerprint(csf, **site_stats_args)
     pool = mp.Pool()
     stars = [(structure, preset, crystal_site_args, site_stats_args)
