@@ -7,13 +7,14 @@ import sys
 sys.path.insert(0, '../rest')
 import fingerprints
 from pymatgen import Structure
+import cProfile
 
 DB = 'structureREST'
 INPUT_COLLECTION = 'icsd'
-N = 5000
+N = 100
 MAX_SITES = 64
 
-client = pymongo.MongoClient('mongodb://localhost:27017/')
+client = pymongo.MongoClient('mongodb://127.0.0.1:27018/')
 db = client[DB]
 
 input_collection = db[INPUT_COLLECTION]
@@ -24,7 +25,7 @@ for handler in logging.root.handlers[:]:
     logging.root.removeHandler(handler)
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s',
                     level=logging.DEBUG,
-                    filename='fingerprint_test.log')
+                    filename='fingerprint_icsd_matminer.log')
 
 logging.info('Starting to fingerprint')
 structures = []
@@ -38,9 +39,9 @@ for material in input_collection.find():
             try:
                 structures.append(material['structure'])
                 document = {'source_id': material['_id'],
-                            'soruce_collection': INPUT_COLLECTION,
-                            'matminer_fingerprint': None,
-                            'stidy_fingerprint': None}
+                            'source_collection': INPUT_COLLECTION,}
+                            # 'matminer_fingerprint': None,
+                            # 'stidy_fingerprint': None}
                 documents.append(document)
             except Exception as e:
                 logging.error('source_id: {} {}'.format(material['_id'], e))
@@ -62,17 +63,17 @@ for material in input_collection.find():
             len(documents), 'matminer'))
         result = matminer_collection.insert_many(documents)
         logging.info('Inserted {} documents'.format(len(result.inserted_ids)))
-
-        logging.info('Calculating STRUCTURE TIDY fingerprints')
-        stidy_fingerprints = fingerprints.stidy_fingerprints(structures)
-        logging.info('Adding fingerprints to documents')
-        stidy_documents = documents.copy()
-        for d, document in enumerate(stidy_documents):
-             stidy_documents[d]['stidy_fingerprint'] = stidy_fingerprints[d]
-        logging.info('Inserting {} documents into {}'.format(
-            len(documents), 'stidy'))
-        result = stidy_collection.insert_many(documents)
-        logging.info('Inserted {} documents'.format(len(result.inserted_ids)))
+        raise Exception('Done')
+#        logging.info('Calculating STRUCTURE TIDY fingerprints')
+#        stidy_fingerprints = fingerprints.stidy_fingerprints(structures)
+#        logging.info('Adding fingerprints to documents')
+#        stidy_documents = documents.copy()
+#        for d, document in enumerate(stidy_documents):
+#             stidy_documents[d]['stidy_fingerprint'] = stidy_fingerprints[d]
+#        logging.info('Inserting {} documents into {}'.format(
+#            len(documents), 'stidy'))
+#        result = stidy_collection.insert_many(documents)
+#        logging.info('Inserted {} documents'.format(len(result.inserted_ids)))
 
         logging.info('Resetting documents and structures')
         documents = []
@@ -90,16 +91,16 @@ if documents:
     result = matminer_collection.insert_many(documents)
     logging.info('Inserted {} documents'.format(len(result.inserted_ids)))
 
-    logging.info('Calculating STRUCTURE TIDY fingerprints')
-    stidy_fingerprints = fingerprints.stidy_fingerprints(structures)
-    logging.info('Adding fingerprints to documents')
-    stidy_documents = documents.copy()
-    for d, document in enumerate(stidy_documents):
-         stidy_documents[d]['stidy_fingerprint'] = stidy_fingerprints[d]
-    logging.info('Inserting {} documents into {}'.format(
-        len(documents), 'stidy'))
-    result = stidy_collection.insert_many(documents)
-    logging.info('Inserted {} documents'.format(len(result.inserted_ids)))
+#    logging.info('Calculating STRUCTURE TIDY fingerprints')
+#    stidy_fingerprints = fingerprints.stidy_fingerprints(structures)
+#    logging.info('Adding fingerprints to documents')
+#    stidy_documents = documents.copy()
+#    for d, document in enumerate(stidy_documents):
+#         stidy_documents[d]['stidy_fingerprint'] = stidy_fingerprints[d]
+#    logging.info('Inserting {} documents into {}'.format(
+#        len(documents), 'stidy'))
+#    result = stidy_collection.insert_many(documents)
+#    logging.info('Inserted {} documents'.format(len(result.inserted_ids)))
 
     logging.info('Resetting documents and structures')
     documents = []
