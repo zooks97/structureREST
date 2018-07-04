@@ -29,8 +29,8 @@ def structure2cell(structure, anonymize):
     return(lattice, positions, numbers)
 
 
-def structure2qp(structure, anonymize=False, scale=False,
-                 standardize=False, primitivize=False, symprec=1e-3, from_dict=False):
+def structure2quippy(structure, anonymize=False, scale=False,
+                     standardize=False, primitivize=False, symprec=1e-3, from_dict=False):
     '''
     Convert pymatgen Structure to quippy Atoms
     Args:
