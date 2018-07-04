@@ -7,10 +7,11 @@ from libmatch.soap import get_Soaps, get_soap
 from libmatch.utils import ase2qp, get_spkit, get_spkitMax
 from spglib import standardize_cell
 from ase import Atoms
+from pymatgen import Structure
 from multiprocessing import Pool
 
 def structure2cell(structure, anonymize):
-    """
+    '''
     Convert pymatgen structures to cell tuples for spglib
     with optional compositional anonymization
     Args:
@@ -18,7 +19,7 @@ def structure2cell(structure, anonymize):
         anonymize (bool): replace all species with hydrogen
     Returns:
         tuple: cell tuple (lattice, positions, numbers) for spglib
-    """
+    '''
     lattice = structure.lattice.matrix
     positions = structure.frac_coords
     if anonymize:
@@ -29,8 +30,8 @@ def structure2cell(structure, anonymize):
 
 
 def structure2qp(structure, anonymize=False, scale=False,
-                 standardize=False, primitivize=False, symprec=1e-3):
-    """
+                 standardize=False, primitivize=False, symprec=1e-3, from_dict=False):
+    '''
     Convert pymatgen Structure to quippy Atoms
     Args:
         structure (pymatgen.core.Structure): pymatgen Structure object
@@ -41,7 +42,9 @@ def structure2qp(structure, anonymize=False, scale=False,
         symprec (float): symmetry tolerance factor (see spglib documentation)
     Returns:
         quippy.atoms.Atoms: quippy Atoms object
-    """
+    '''
+    if from_dict:
+        structure = Structure.from_dict(structure)
     cell = structure2cell(structure, anonymize) # (matrix, positions, numbers)
     if standardize or primitivize:
         cell = list(standardize_cell(cell, to_primitive=primitivize, symprec=symprec))
@@ -52,7 +55,7 @@ def structure2qp(structure, anonymize=False, scale=False,
 
 
 def average_distance(average_soap1, average_soap2):
-    """
+    '''
     Calculate distance between to averaged SOAP vectors
     using the average distance kernel from De et al. (2016)
     Args:
@@ -60,7 +63,7 @@ def average_distance(average_soap1, average_soap2):
         average_soap2 (numpy.ndarray): numpy array of average SOAP vector 2
     Returns:
         float: normalized distance between average_soap1 and average_soap2
-    """
+    '''
     k11 = np.linalg.norm(average_soap1)
     k22 = np.linalg.norm(average_soap2)
     k12 = np.linalg.norm(average_soap1 - average_soap2)
