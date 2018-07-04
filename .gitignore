@@ -1,4 +1,73 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Unit test / coverage reports
+.pytest_cache/
+
+# Logs:
+*.log
+
+# General data:
+*.json
+*.big
+*.dat
+
+# Structure data:
+*.cif
+*.xyz
+
+# Platon:
+*.spf
+*.sty
+*.lis
+*.res
+check.dat
+
+# Sphinx documentation
+docs/_build/
+
+# Jupyter Notebook
 .ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# macOS files
 .DS_Store
+
+# VSCode workspaces
 .vscode
-__pycache__
