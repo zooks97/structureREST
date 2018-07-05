@@ -9,6 +9,7 @@ from spglib import standardize_cell
 from ase import Atoms
 from pymatgen import Structure
 from pymatgen.io.ase import AseAtomsAdaptor
+from pymatgen.io.cif import CifParser
 from multiprocessing import Pool
 
 def structure2cell(structure, anonymize):
@@ -77,3 +78,32 @@ def average_distance(average_soap1, average_soap2):
     k12 = np.linalg.norm(average_soap1 - average_soap2)
     d12 = np.sqrt(2 - 2 * (k12 / np.sqrt(k11 * k12)))
     return d12
+
+
+def get_chunk_indices(total_size, chunk_size):
+    '''
+    Generate list of index tuples to chunk up a big set of data
+    Args:
+        total_size (int): number of items in big set
+        chunk_size (int): number of items in all but the last chunk set
+    Returns:
+        [(int, int)]: list of index tuples
+    '''
+    i = 0
+    indices = []
+    while i < total_size:
+        indices.append((i, i+chunk_size))
+        i += chunk_size
+    return indices
+
+def cifparser_from_string_wrap(cif_string):
+    '''
+    Wrapper to use pymatgen.io.cif.CifParser with multiprocessing.Pool.map()
+        or pandas.DataFrame.apply()
+    '''
+    return CifParser.from_string(cif_string).get_structures(primitive=False)[0]
+
+
+def structure_from_dict_wrap(structure):
+    '''Convert structure dictionary to pymatgen.core.Structure object'''
+    return Structure.from_dict(structure)
