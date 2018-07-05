@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# python 2.7
 import numpy as np
 from sys import path
 path.insert(0, '/home/azadoks/git/glosim2/')

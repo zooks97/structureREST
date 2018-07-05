@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# python 3.6
 from pymatgen import Structure
 from pymatgen.analysis.structure_matcher import (StructureMatcher,
                                                  AbstractComparator,
@@ -9,7 +10,6 @@ from pymatgen.analysis.structure_matcher import (StructureMatcher,
                                                  SpeciesComparator, SpinComparator)
 from matminer.featurizers.site import CrystalNNFingerprint
 from matminer.featurizers.structure import SiteStatsFingerprint
-from itertools import starmap
 import numpy as np
 import fingerprints
 import multiprocessing as mp
@@ -91,10 +91,9 @@ def pymatgen_comparisons(structures, comparator='OccupancyComparator', anonymous
                 # else:
                 #     comparison = structure_matcher.fit(struct_1, struct_2)
                 # comparisons.append(bool(comparison))
-    # TODO: Reimplement multiprocessing
-    # pool = mp.Pool()
+    pool = mp.Pool()
     if anonymous:
-        comparisons = starmap(structure_matcher.fit_anonymous, stars)
+        comparisons = pool.starmap(structure_matcher.fit_anonymous, stars)
     else:
-        comparisons = starmap(structure_matcher.fit, stars)
+        comparisons = pool.starmap(structure_matcher.fit, stars)
     return [bool(comparison) for comparison in comparisons]

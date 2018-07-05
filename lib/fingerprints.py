@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
+# python 3.6
 from pymatgen import Structure
 # from matminer.featurizers.site import CrystalNNFingerprint
 from matminer.featurizers.site import CrystalNNFingerprint
 from matminer.featurizers.structure import SiteStatsFingerprint
-from itertools import starmap
 import stidy
 import multiprocessing as mp
 from os.path import isfile
@@ -41,12 +41,12 @@ def matminer_fingerprints(structures, preset='cn', crystal_site_args={}, site_st
     # csf = CrystalNNFingerprint.from_preset(preset, **crystal_site_args)
     # ssf = SiteStatsFingerprint(csf, **site_stats_args)
     # TODO: Reimplement multiprocessing
-    # pool = mp.Pool()
+    pool = mp.Pool()
     stars = [(structure, preset, crystal_site_args, site_stats_args)
              for structure in structures]
-    v = starmap(matminer_wrapper, stars)
-    # pool.close()
-    # pool.join()
+    v = pool.starmap(matminer_wrapper, stars)
+    pool.close()
+    pool.join()
     return v
 
 
@@ -79,3 +79,25 @@ def stidy_fingerprints(structures, symprec=0.01, angle_tolerance=5.):
         remove('check.def')
     # return fingerprints
     return fingerprints
+
+
+def soap_fingerprints(structures, nocenters, chem_channels, centerweight,
+                      gaussian_width, cutoff, cutoff_transition_width,
+                      nmax, lmax, spkitMax, chemicalProjection, is_fast_average):
+    '''
+    Calculate soap fingerprints using QUIP and quippy
+
+    Args:
+        structures ([dict]):
+        nocenters ():
+        chem_channels (bool):
+        centerweight (float):
+        gaussian_width (float):
+        cutoff (float):
+        cutoff_transition_width (float):
+        nmax (int):
+        lmax (int):
+        spkitMax ({Z: number_of_z}):
+        checmicalProjection ():
+        is_fast_average (bool):
+    '''

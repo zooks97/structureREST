@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# python 3.6
 from pymatgen import Structure
 from pymatgen.analysis.structure_matcher import (StructureMatcher,
                                                  AbstractComparator,
@@ -9,7 +10,6 @@ from pymatgen.analysis.structure_matcher import (StructureMatcher,
                                                  SpeciesComparator, SpinComparator)
 from matminer.featurizers.site import CrystalNNFingerprint
 from matminer.featurizers.structure import SiteStatsFingerprint
-from itertools import starmap
 import numpy as np
 import fingerprints
 import multiprocessing as mp
@@ -81,7 +81,7 @@ def pymatgen_distances(structures, comparator='OccupancyComparator',
     structures = [Structure.from_dict(structure)
                   for structure in structures]
     stars = []
-    # distances = []
+    distances = []
     for i, struct_1 in enumerate(structures):
         for j, struct_2 in enumerate(structures[i:]):
             if i != j + i:
@@ -92,11 +92,10 @@ def pymatgen_distances(structures, comparator='OccupancyComparator',
                 #     if distance[0] <= distance_tol:
                 #         distance[0] = 0.
                 # distances.append(distance)
-    # TODO: re-implement pooling
-    # pool = mp.Pool()
-    distances = list(starmap(structure_matcher.get_rms_dist, stars))
-    # pool.close()
-    # pool.join()
+    pool = mp.Pool()
+    distances = pool.starmap(structure_matcher.get_rms_dist, stars)
+    pool.close()
+    pool.join()
     for d, distance in enumerate(distances):
         if distance is not None:
             distance = list(distance)
