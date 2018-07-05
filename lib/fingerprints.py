@@ -79,25 +79,3 @@ def stidy_fingerprints(structures, symprec=0.01, angle_tolerance=5.):
         remove('check.def')
     # return fingerprints
     return fingerprints
-
-
-def soap_fingerprints(structures, nocenters, chem_channels, centerweight,
-                      gaussian_width, cutoff, cutoff_transition_width,
-                      nmax, lmax, spkitMax, chemicalProjection, is_fast_average):
-    '''
-    Calculate soap fingerprints using QUIP and quippy
-
-    Args:
-        structures ([dict]):
-        nocenters ():
-        chem_channels (bool):
-        centerweight (float):
-        gaussian_width (float):
-        cutoff (float):
-        cutoff_transition_width (float):
-        nmax (int):
-        lmax (int):
-        spkitMax ({Z: number_of_z}):
-        checmicalProjection ():
-        is_fast_average (bool):
-    '''

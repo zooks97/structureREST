@@ -1,8 +1,11 @@
-#!/usr/local/miniconda3/envs/structure/bin/python
 # -*- coding: utf-8 -*-
+# python 3.6
 import flask
 import flask_restful
 from flask_restful.reqparse import Argument, RequestParser
+from requests import get
+from sys import path
+path.insert(0, '../../lib/')
 import comparisons
 import distances
 import fingerprints
@@ -179,6 +182,15 @@ class Stidy_Fingerprints(flask_restful.Resource):
 
 api.add_resource(Stidy_Fingerprints,
                  '/v{:d}/fingerprints/stidy/'.format(VERSION))
+
+
+@app.route('/v{:d}/fingerprints/soap/'.format(VERSION), methods=['GET'])
+def Soap_Fingerprints():
+    print(flask.request.args)
+    soap_request = get('127.0.0.1:8899/v1/get_Soaps/',
+                       params=flask.request.args)
+    return flask.jsonify(soap_request.json())
+
 
 if __name__ == '__main__':
     app.run(debug=True)
