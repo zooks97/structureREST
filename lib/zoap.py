@@ -8,6 +8,7 @@ from libmatch.utils import ase2qp, get_spkit, get_spkitMax
 from spglib import standardize_cell
 from ase import Atoms
 from pymatgen import Structure
+from pymatgen.io.ase import AseAtomsAdaptor
 from multiprocessing import Pool
 
 def structure2cell(structure, anonymize):
@@ -47,7 +48,14 @@ def structure2quippy(structure, anonymize=False, scale=False,
         structure = Structure.from_dict(structure)
     cell = structure2cell(structure, anonymize) # (matrix, positions, numbers)
     if standardize or primitivize:
-        cell = list(standardize_cell(cell, to_primitive=primitivize, symprec=symprec))
+        cell = standardize_cell(cell, to_primitive=primitivize, symprec=symprec)
+        if cell:
+            cell = list(cell)
+        else:
+            try:
+                return ase2qp(AseAtomsAdaptor.get_atoms(structure))  # spglib can't make a primitive
+            except ValueError as e:  # TODO: warn the user here maybe
+                return None  # Must be either really fucked up or disordered
     if scale:
         volume = np.dot(np.cross(cell[0][0], cell[0][1]), cell[0][2])  # cell[0] = matrix
         cell[0] = cell[0] / np.cbrt(volume / len(cell[2]))  # len(cell[2]) = n_atoms
