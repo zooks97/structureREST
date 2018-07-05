@@ -1,8 +1,7 @@
-#!/usr/local/miniconda3/envs/structure/bin/python
 # -*- coding: utf-8 -*-
 from string import ascii_uppercase
 from os import remove
-from subprocess import Popen, PIPE, STDOUT
+from subprocess32 import Popen, PIPE, STDOUT
 from distutils.spawn import find_executable
 from tempfile import NamedTemporaryFile
 from pymatgen import Structure, Lattice

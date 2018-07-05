@@ -1,9 +1,9 @@
-#!/usr/local/miniconda3/envs/structure/bin/python
 # -*- coding: utf-8 -*-
 from pymatgen import Structure
 # from matminer.featurizers.site import CrystalNNFingerprint
 from matminer.featurizers.site import CrystalNNFingerprint
 from matminer.featurizers.structure import SiteStatsFingerprint
+from itertools import starmap
 import stidy
 import multiprocessing as mp
 from os.path import isfile
@@ -40,12 +40,13 @@ def matminer_fingerprints(structures, preset='cn', crystal_site_args={}, site_st
                   for structure in structures]
     # csf = CrystalNNFingerprint.from_preset(preset, **crystal_site_args)
     # ssf = SiteStatsFingerprint(csf, **site_stats_args)
-    pool = mp.Pool()
+    # TODO: Reimplement multiprocessing
+    # pool = mp.Pool()
     stars = [(structure, preset, crystal_site_args, site_stats_args)
              for structure in structures]
-    v = pool.starmap(matminer_wrapper, stars)
-    pool.close()
-    pool.join()
+    v = starmap(matminer_wrapper, stars)
+    # pool.close()
+    # pool.join()
     return v
 
 

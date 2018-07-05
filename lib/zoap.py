@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
-
 import numpy as np
 from sys import path
-path.insert(0,'/home/azadoks/git/glosim2/')
+path.insert(0, '/home/azadoks/git/glosim2/')
 from libmatch.soap import get_Soaps, get_soap
 from libmatch.utils import ase2qp, get_spkit, get_spkitMax
 from spglib import standardize_cell
@@ -11,6 +10,7 @@ from pymatgen import Structure
 from pymatgen.io.ase import AseAtomsAdaptor
 from pymatgen.io.cif import CifParser
 from multiprocessing import Pool
+
 
 def structure2cell(structure, anonymize):
     '''
@@ -47,20 +47,24 @@ def structure2quippy(structure, anonymize=False, scale=False,
     '''
     if from_dict:
         structure = Structure.from_dict(structure)
-    cell = structure2cell(structure, anonymize) # (matrix, positions, numbers)
+    cell = structure2cell(structure, anonymize)  # (matrix, positions, numbers)
     if standardize or primitivize:
-        cell = standardize_cell(cell, to_primitive=primitivize, symprec=symprec)
+        cell = standardize_cell(
+            cell, to_primitive=primitivize, symprec=symprec)
         if cell:
             cell = list(cell)
         else:
             try:
-                return ase2qp(AseAtomsAdaptor.get_atoms(structure))  # spglib can't make a primitive
-            except ValueError as e:  # TODO: warn the user here maybe
+                # spglib can't make a primitive
+                return ase2qp(AseAtomsAdaptor.get_atoms(structure))
+            except ValueError as ve:  # TODO: warn the user here maybe
                 return None  # Must be either really fucked up or disordered
     if scale:
-        volume = np.dot(np.cross(cell[0][0], cell[0][1]), cell[0][2])  # cell[0] = matrix
-        cell[0] = cell[0] / np.cbrt(volume / len(cell[2]))  # len(cell[2]) = n_atoms
-    return ase2qp(Atoms(cell=cell[0], positions=cell[1], numbers=list(cell[2]), pbc=True))  
+        # cell[0] = matrix
+        volume = np.dot(np.cross(cell[0][0], cell[0][1]), cell[0][2])
+        # len(cell[2]) = n_atoms
+        cell[0] = cell[0] / np.cbrt(volume / len(cell[2]))
+    return ase2qp(Atoms(cell=cell[0], positions=cell[1], numbers=list(cell[2]), pbc=True))
 
 
 def average_distance(average_soap1, average_soap2):
@@ -76,7 +80,7 @@ def average_distance(average_soap1, average_soap2):
     k11 = np.linalg.norm(average_soap1)
     k22 = np.linalg.norm(average_soap2)
     k12 = np.linalg.norm(average_soap1 - average_soap2)
-    d12 = np.sqrt(2 - 2 * (k12 / np.sqrt(k11 * k12)))
+    d12 = np.sqrt(2 - 2 * (k12 / np.sqrt(k11 * k22)))
     return d12
 
 
@@ -95,6 +99,7 @@ def get_chunk_indices(total_size, chunk_size):
         indices.append((i, i+chunk_size))
         i += chunk_size
     return indices
+
 
 def cifparser_from_string_wrap(cif_string):
     '''
