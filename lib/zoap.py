@@ -61,6 +61,7 @@ def structure2quippy(structure, anonymize=False, scale=False,
             except ValueError as ve:  # TODO: warn the user here maybe
                 return None  # Must be either really fucked up or disordered
     if scale:
+        cell = list(cell)
         # cell[0] = matrix
         volume = np.dot(np.cross(cell[0][0], cell[0][1]), cell[0][2])
         # len(cell[2]) = n_atoms
