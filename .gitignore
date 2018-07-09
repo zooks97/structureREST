@@ -27,6 +27,11 @@ MANIFEST
 *.json
 *.big
 *.dat
+*.npy
+*.npz
+*.jdl
+*.hd5
+*.h5
 
 # Structure data:
 *.cif
