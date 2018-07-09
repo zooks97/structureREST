@@ -9,6 +9,7 @@ path.insert(0, '../../lib/')
 import comparisons
 import distances
 import fingerprints
+import atoms_utils
 
 app = flask.Flask(__name__)
 api = flask_restful.Api(app)
@@ -186,17 +187,21 @@ api.add_resource(Stidy_Fingerprints,
 
 @app.route('/v{:d}/fingerprints/soap/'.format(VERSION), methods=['GET'])
 def Soap_Fingerprint():
-    print(flask.request.args)
-    soap_request = get('http://127.0.0.1:8899/v1/get_soap/',
-                       params=flask.request.args)
+    args = flask.request.args
+    args['atoms'] = atoms_utils.from_structure_dict(args.pop('structure'))
+    args['atoms'] = atoms_utils.dumps(args['atoms'])
+    soap_request = get('http://127.0.0.1:8080/v1/get_soap/',
+                       params=args)
     return flask.jsonify(soap_request.json())
 
 
 @app.route('/v{:d}/fingerprints/soaps/'.format(VERSION), methods=['GET'])
 def Soap_Fingerprints():
-    print(flask.request.args)
-    soap_request = get('http://127.0.0.1:8899/v1/get_Soaps/',
-                       params=flask.request.args)
+    args = flask.request.args
+    args['atoms'] = [atoms_utils.from_structure_dict(s) for s in args.pop('structures')]
+    args['atoms'] = [atoms_utils.dumps(a) for a in args['atoms']]
+    soap_request = get('http://127.0.0.1:8080/v1/get_Soaps/',
+                       params=args)
     return flask.jsonify(soap_request.json())
 
 
