@@ -31,19 +31,17 @@ def matminer_comparisons(structures, preset='cn', crystal_site_args={},
         [bool]: comparisons between each pair of structures; goes like
             [1-2, 1-3, ..., 1-n, 2-3, 2-4, ..., 2-n, ...]
     '''
-    # structures = [Structure.from_dict(structure)
-    #               for structure in structures]
     v = fingerprints.matminer_fingerprints(
         structures, preset=preset, crystal_site_args=crystal_site_args, site_stats_args=site_stats_args)
-    distances = []
-    for i, v_1 in enumerate(v):
-        for j, v_2 in enumerate(v[i:]):
-            if i != j + i:
-                distance = np.linalg.norm(np.array(v_1) - np.array(v_2))
-                if distance <= distance_tol:
-                    distance = 0.
-                distances.append(not bool(distance))
-    return distances
+    distances = np.zeros((len(v), len(v)))
+    for i in range(len(v)):
+        for j in range(i, len(v)):
+            distance = np.linalg.norm(np.array(v[i]) - np.array(v[j]))
+            if distance <= distance_tol:
+                distance = 0.
+            distances[i,j] = (not bool(distance))
+            distances[j,i] = distances[i,j]
+    return distances.tolist()
 
 
 def pymatgen_comparisons(structures, comparator='OccupancyComparator', anonymous=False,
@@ -80,20 +78,21 @@ def pymatgen_comparisons(structures, comparator='OccupancyComparator', anonymous
     structures = [Structure.from_dict(structure)
                   for structure in structures]
     stars = []
-    comparisons = []
-    for i, struct_1 in enumerate(structures):
-        for j, struct_2 in enumerate(structures[i:]):
-            if i != j + i:
+    for i in range(len(structures)):
+        for j in range(i, len(structures)):
                 stars.append((struct_1, struct_2))
-                # if anonymous:
-                #     comparison = structure_matcher.fit_anonymous(
-                #         struct_1, struct_2)
-                # else:
-                #     comparison = structure_matcher.fit(struct_1, struct_2)
-                # comparisons.append(bool(comparison))
     pool = mp.Pool()
     if anonymous:
-        comparisons = pool.starmap(structure_matcher.fit_anonymous, stars)
+        results = pool.starmap(structure_matcher.fit_anonymous, stars)
     else:
-        comparisons = pool.starmap(structure_matcher.fit, stars)
-    return [bool(comparison) for comparison in comparisons]
+        results = pool.starmap(structure_matcher.fit, stars)
+    results = [bool(results) for result in results]
+
+    comparisons = np.zeros(len(structures), len(structures))
+    counter = 0
+    for i in range(len(structures)):
+        for j in range(i+1, len(structures)):
+            comparisons[i,j] = results[counter]
+            counter += 1
+
+    return comparisons.tolist()

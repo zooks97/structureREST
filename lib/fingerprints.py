@@ -38,9 +38,6 @@ def matminer_fingerprints(structures, preset='cn', crystal_site_args={}, site_st
     '''
     structures = [Structure.from_dict(structure)
                   for structure in structures]
-    # csf = CrystalNNFingerprint.from_preset(preset, **crystal_site_args)
-    # ssf = SiteStatsFingerprint(csf, **site_stats_args)
-    # TODO: Reimplement multiprocessing
     pool = mp.Pool()
     stars = [(structure, preset, crystal_site_args, site_stats_args)
              for structure in structures]
