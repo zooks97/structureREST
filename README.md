@@ -52,9 +52,8 @@ Dependencies:
     
       From `docker/`:
       
-        ``. build.sh``
-        
-        ``. run.sh``
+        . build.sh
+        . run.sh
     
     c. If you're feeling adventurous, you could try to locally compile QUIP, GAP, and quippy following the instructions in the [libAtoms/QUIP repository](https://github.com/libAtoms/QUIP).
 
