@@ -203,6 +203,7 @@ def Soap_Fingerprints():
     args['structures'] = [json.loads(d) for d in args['structures']]
     args['atoms'] = [atoms_utils.from_structure_dict(s) for s in args.pop('structures')]
     args['atoms'] = [atoms_utils.dumps(a) for a in args['atoms']]
+    args['atoms'] = json.dumps(args['atoms'])
     soap_request = get('http://127.0.0.1:8080/v1/get_Soaps/',
                        params=args)
     return flask.jsonify(soap_request.json())
