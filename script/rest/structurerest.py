@@ -19,8 +19,11 @@ VERSION = 1
 ### Argumernts ###
 ARGUMENTS = {
     # generic
-    'structures': Argument('structures', type=str, required=True,
-                           help='Pymatgen structure objects'),
+    'structures': Argument(
+        'structures',
+        type=str,
+        required=True,
+        help='Pymatgen structure objects'),
     # pymatgen
     'ltol': Argument('ltol', type=float, store_missing=False,
                      help='Fractional length tolerance'),
@@ -186,17 +189,6 @@ api.add_resource(Stidy_Fingerprints,
                  '/v{:d}/fingerprints/stidy/'.format(VERSION))
 
 
-@app.route('/v{:d}/fingerprints/soap/'.format(VERSION), methods=['GET'])
-def Soap_Fingerprint():
-    args = dict(flask.request.args)
-    args['structure'] = json.loads(args['structure'])
-    args['atoms'] = atoms_utils.from_structure_dict(args.pop('structure'))
-    args['atoms'] = atoms_utils.dumps(args['atoms'])
-    soap_request = get('http://127.0.0.1:8080/v1/get_soap/',
-                       params=args)
-    return flask.jsonify(soap_request.json())
-
-
 @app.route('/v{:d}/fingerprints/soaps/'.format(VERSION), methods=['GET'])
 def Soap_Fingerprints():
     args = dict(flask.request.args)
@@ -210,4 +202,4 @@ def Soap_Fingerprints():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=9090)
