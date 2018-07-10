@@ -40,7 +40,7 @@ Dependencies:
 
 2. Install python dependencies
 
-  ``pip install numpy scipy pymatgen ase matminer flask flask_restful``
+    ``pip install numpy scipy pymatgen ase matminer flask flask_restful``
 
 3. Install QUIP / GAP / quippy
     
