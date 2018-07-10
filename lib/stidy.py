@@ -17,6 +17,10 @@ logger = logging.getLogger(__name__)
 
 
 class StidyParser(object):
+    '''
+    Class for parsing and holding output data from PLATON's STIDY routine
+    '''
+
     def __init__(self, stidy_output):
         self.output = stidy_output
         return
@@ -207,13 +211,11 @@ def stidy(structure, exact=True, ang=1., d1=0.25, d2=0.25, d3=0.25, timeout=15):
     '''
     Run STRUCTURE TIDY as implemented in the PLATON software package.
     PLATON must either be in the PATH or in ../bin.
-
     References:
         A. L. Spek (2009). Acta Cryst., D65, 148-155.
         E. Parthé and L. M. Gelato (1984). Acta Cryst., A40, 169-183.
         L. M. Gelato and E. Parthé (1987). J. Appl. Cryst. 20, 139-143.
         S-Z. Hu and E. Parthé (2004). Chinese J. Struct. Chem. 23, 1150-1160.
-
     Args:
         structure (pymatgen.core.Structure): Pymatgen Structure object for the
             (probably) untidy structure
