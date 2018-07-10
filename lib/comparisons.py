@@ -39,8 +39,8 @@ def matminer_comparisons(structures, preset='cn', crystal_site_args={},
             distance = np.linalg.norm(np.array(v[i]) - np.array(v[j]))
             if distance <= distance_tol:
                 distance = 0.
-            distances[i,j] = (not bool(distance))
-            distances[j,i] = distances[i,j]
+            distances[i, j] = (not bool(distance))
+            distances[j, i] = distances[i, j]
     return distances.tolist()
 
 
@@ -80,7 +80,7 @@ def pymatgen_comparisons(structures, comparator='OccupancyComparator', anonymous
     stars = []
     for i in range(len(structures)):
         for j in range(i, len(structures)):
-                stars.append((struct_1, struct_2))
+            stars.append((structures[i], structures[j]))
     pool = mp.Pool()
     if anonymous:
         results = pool.starmap(structure_matcher.fit_anonymous, stars)
@@ -92,7 +92,7 @@ def pymatgen_comparisons(structures, comparator='OccupancyComparator', anonymous
     counter = 0
     for i in range(len(structures)):
         for j in range(i+1, len(structures)):
-            comparisons[i,j] = results[counter]
+            comparisons[i, j] = results[counter]
             counter += 1
 
     return comparisons.tolist()
