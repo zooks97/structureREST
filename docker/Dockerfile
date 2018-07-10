@@ -134,10 +134,10 @@ WORKDIR /home/app
 RUN cp aiida-fingerprint/docker/conf/soaprest-apache.conf /etc/apache2/sites-available/soaprest.conf
 RUN a2enmod wsgi && a2enmod xsendfile && \
     a2dissite 000-default && a2ensite soaprest
-# RUN mkdir /etc/service/apache
-# RUN cp /home/app/aiida-fingerprint/docker/conf/apache_run.sh /etc/service/apache/run
-# RUN chmod +x /etc/service/apache/run
-# RUN echo "ServerName localhost:80" >> /etc/apache2/apache2.conf
+RUN mkdir /etc/service/apache
+RUN cp /home/app/aiida-fingerprint/docker/conf/apache_run.sh /etc/service/apache/run
+RUN chmod +x /etc/service/apache/run
+RUN echo "ServerName localhost:80" >> /etc/apache2/apache2.conf
 
 # #############
 # ### Nginx ###
@@ -155,6 +155,8 @@ RUN mkdir -p /etc/my_init.d
 ###############
 # webserver
 EXPOSE 80
+# jupyter
+EXPOSE 8888
 
 ###############
 ### Cleanup ###
