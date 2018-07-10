@@ -11,8 +11,8 @@ from pymatgen.analysis.structure_matcher import (StructureMatcher,
 from matminer.featurizers.site import CrystalNNFingerprint
 from matminer.featurizers.structure import SiteStatsFingerprint
 import numpy as np
-import fingerprints
 import multiprocessing as mp
+from . import fingerprints
 # import logging
 # logger = logging.getLogger(__name__)
 

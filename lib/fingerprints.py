@@ -4,12 +4,12 @@ from pymatgen import Structure
 # from matminer.featurizers.site import CrystalNNFingerprint
 from matminer.featurizers.site import CrystalNNFingerprint
 from matminer.featurizers.structure import SiteStatsFingerprint
-import stidy
 import multiprocessing as mp
 from os.path import isfile
 from os import remove
 import functools
 import logging
+from . import stidy
 logger = logging.getLogger(__name__)
 
 
