@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
+*.swp
 
 # Distribution / packaging
 .Python
@@ -32,6 +33,13 @@ MANIFEST
 *.jdl
 *.hd5
 *.h5
+
+# Archives
+*.tar
+*.tar.gz
+*.tar.bz
+*.zip
+*.7z
 
 # Structure data:
 *.cif
