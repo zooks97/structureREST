@@ -1,2 +1,57 @@
-# structureREST
-RESTful interface for structure comparison and more
+structureREST
+==============
+structureREST is a library of wrapper functions and a RESTful server for calculating basic structure descriptors of bulk crystalline materials. It also has support for some methods which compare but do not describe structures, like the pymatgen StructureMatcher.
+
+Features
+--------
+* Descriptors:
+  * Matminer CrystalNNFingerprint
+  * STRUCTURE TIDY spacegroup/wyckoff
+  * SOAP
+* Comparitors:
+  * Matminer CrystalNNFingerprint
+  * pymatgen StructureMatcher
+  * SOAP
+    * Average Distance Kernel w/ similarity cutoff
+* Continuous Distance Metrics:
+  * Matminer CrystalNNFingerprint
+  * SOAP
+    * Average Distance Kernel
+
+Installation
+------------
+Dependencies:
+  * pymatgen
+  * ase
+  * matminer
+  * QUIP with GAP
+  * quippy
+  * glosim2
+    * tqdm
+    * psutil
+  * flask
+  * flask_restful
+  * numpy
+  * scipy
+  
+1. Clone the repository ::
+
+    git clone https://github.com/zooks97/structureREST ~/structureREST
+
+2. Install python dependencies ::
+    
+    pip install numpy scipy pymatgen ase matminer flask flask_restful
+
+3. Install QUIP / GAP / quippy
+    a. One option is to use the precompiled Docker image libatoms/quip. This image is a bit bloated (3 compilations of QUIP, LAMMPS included, etc.).
+    b. A more lightweight option is to compile the Dockerfile in `docker/`
+    c. If you're feeling adventurous, you could try to locally compile QUIP, GAP, and quippy following the instructions in the libAtoms/QUIP repository.
+
+For QUIP / GAP / quippy, local installation can be very difficult. It is generally much easier to use a Docker image from libAtoms called libAtoms/QUIP _or_ to compile a stripped-down image included in `docker/`.
+
+
+
+
+To use structureREST libraries, clone the repository to your local workstation and use `sys.path.insert(0, 'path/to/structureREST/lib)` followed by `import filename` to import all functions / classes / etc. from `structureREST/lib/filename.py`.
+
+To run the RESTful server, point your favorite webserver to `script/rest/structurerest.py`. Documentation for the RESTful interface can be found in `docs/`. If you wish to use SOAP through the restful interface, the current method is to install a small RESTful server `script/rest/soaprest.py` wherever quippy is available. Make sure to also download `glosim2` and modify `script/rest/soaprest.py` so that glosim is added to the path.
