@@ -39,8 +39,8 @@ Dependencies:
     ``git clone https://github.com/zooks97/structureREST ~/structureREST``
 
 2. Install python dependencies
-    
-    ``pip install numpy scipy pymatgen ase matminer flask flask_restful``
+
+  ``pip install numpy scipy pymatgen ase matminer flask flask_restful``
 
 3. Install QUIP / GAP / quippy
     
@@ -57,13 +57,12 @@ Dependencies:
     
     c. If you're feeling adventurous, you could try to locally compile QUIP, GAP, and quippy following the instructions in the [libAtoms/QUIP repository](https://github.com/libAtoms/QUIP).
 
-4. Install glosim2
+4. Install [glosim2](https://github.com/cosmo-epfl/glosim2)
 
-    In the same environment where QUIP / GAP / quippy are installed (docker image or locally), do the following to get glosim2.
+  In the same environment where QUIP / GAP / quippy are installed (docker image or locally), do the following to get glosim2:
     
-    ``git clone https://github.com/cosmo-epfl/glosim2``
-    
-    ``pip install tqdm psutil``
+    git clone https://github.com/cosmo-epfl/glosim2
+    pip install tqdm psutil
 
 To use structureREST libraries, use `sys.path.insert(0, 'path/to/structureREST/lib)` followed by `import [filename]` to import all functions / classes / etc. from `structureREST/lib/[filename].py`.
 
