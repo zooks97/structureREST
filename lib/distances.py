@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 # python 3.6
+'''
+    Functions for calculating distance matrices for sets of crystal structures
+'''
 from pymatgen import Structure
 from pymatgen.analysis.structure_matcher import (StructureMatcher,
                                                  AbstractComparator,
@@ -21,14 +24,12 @@ def matminer_distances(structures, preset='cn', crystal_site_args={},
                        site_stats_args={}, distance_tol=1.e-6):
     '''
     Distance based on crystal sites implmented by matminer
-
     Args:
         structures ([dict]): dictionary-encoded pymatgen Structure objects
         preset (str): ['cn', 'ops'] CrystalNNFingerprint preset
         crystal_site_args (dict): **kwargs passed to CrysatlSiteFingerprint
         site_stats_args (dict): **kwargs passed to SiteStatsFingerprint
         distance_tol (float): distance below which distance will be rounded to 0
-
     Returns:
         [float]: distances between each pair of structures; goes like
             [1-2, 1-3, ..., 1-n, 2-3, 2-4, ..., 2-n, ...]
@@ -52,7 +53,6 @@ def pymatgen_distances(structures, comparator='OccupancyComparator',
                        distance_tol=0.01, **kwargs):
     '''
     Distance based on pymatgen StructureMatcher rms distance
-
     Args:
         structures ([dict]): dictionary-encoded pymatgen Structure objects
         comparator (str): name of comparator object to use from ['StructureMatcher',
@@ -62,7 +62,6 @@ def pymatgen_distances(structures, comparator='OccupancyComparator',
                                                  'SpeciesComparator', 'SpinComparator']
         distance_tol (float): distance below which distance will be rounded to 0
         **kwargs: **kwargs to be passed to pymatgen's StructureMatcher object
-
     Returns:
         [float]: RMS distances between structures; goes like
             1-2, 1-3, ..., 1-n, 2-3, 2-4, ..., 2-n, ...]

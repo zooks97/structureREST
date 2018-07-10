@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 # python 3.6
+'''
+    Functions and Object for interfacing with PLATON's STIDY routine
+'''
 from string import ascii_uppercase
 from os import remove
 from subprocess import Popen, PIPE, STDOUT

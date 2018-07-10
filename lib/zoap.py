@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 # python 2.7
+'''
+    Functions for interacting with glosim2's SOAP functionality
+'''
 import numpy as np
 from sys import path
 path.insert(0, '/home/azadoks/git/glosim2/')
