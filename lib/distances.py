@@ -15,7 +15,8 @@ from matminer.featurizers.site import CrystalNNFingerprint
 from matminer.featurizers.structure import SiteStatsFingerprint
 import numpy as np
 import multiprocessing as mp
-from . import fingerprints
+# from . import fingerprints
+import fingerprints
 # import logging
 # logger = logging.getLogger(__name__)
 

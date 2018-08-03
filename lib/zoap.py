@@ -82,9 +82,10 @@ def average_distance(average_soap1, average_soap2):
     Returns:
         float: normalized distance between average_soap1 and average_soap2
     '''
-    k11 = np.linalg.norm(average_soap1)
-    k22 = np.linalg.norm(average_soap2)
-    k12 = np.linalg.norm(average_soap1 - average_soap2)
+    k11 = np.linalg.norm(average_soap1) ** 2
+    k22 = np.linalg.norm(average_soap2) ** 2
+    # k12 = np.linalg.norm(average_soap1 - average_soap2)
+    k12 = np.dot(average_soap1, average_soap2)
     d12 = np.sqrt(2 - 2 * (k12 / np.sqrt(k11 * k22)))
     return d12
 

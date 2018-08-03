@@ -12,7 +12,8 @@ from os.path import isfile
 from os import remove
 import functools
 import logging
-from . import stidy
+# from . import stidy
+import stidy
 logger = logging.getLogger(__name__)
 
 
